@@ -28,9 +28,28 @@ class Contact_model extends CI_Model
         return $this->db->insert('contacts', $data);
     }
 
+    //get unread messages
+    public function get_unread_messages()
+    {
+        $this->db->where('is_read', 0);
+        $this->db->where('status', 1);
+        $query = $this->db->get('contacts');
+        return $query->result();
+    }
+
+    //get unread messages
+    public function update_unread_to_read()
+    {
+        $data = ['is_read' => 1];
+        $this->db->where('is_read', 0);
+        $this->db->where('status', 1);
+        return $this->db->update('contacts', $data);
+    }
+
     //get contact messages
     public function get_contact_messages()
     {
+        $this->db->where('status', 1);
         $query = $this->db->get('contacts');
         return $query->result();
     }
@@ -57,10 +76,10 @@ class Contact_model extends CI_Model
     {
         $id = clean_number($id);
         $contact = $this->get_contact_message($id);
-
+        $data = ['status' => 0];
         if (!empty($contact)) {
             $this->db->where('id', $id);
-            return $this->db->delete('contacts');
+            return $this->db->update('contacts', $data);
         }
         return false;
     }

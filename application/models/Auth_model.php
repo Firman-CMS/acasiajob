@@ -48,6 +48,40 @@ class Auth_model extends CI_Model
         }
     }
 
+    # acasia - login admin
+    public function login_admin()
+    {
+        $this->load->library('bcrypt');
+
+        $data = $this->input_values();
+        $user = $this->get_admin_by_email($data['email']);
+
+        if (!empty($user)) {
+            //check password
+            if (!$this->bcrypt->check_password($data['password'], $user->password)) {
+                $this->session->set_flashdata('error', trans("login_error"));
+                return false;
+            }
+            if ($user->banned == 1) {
+                $this->session->set_flashdata('error', trans("msg_ban_error"));
+                return false;
+            }
+            //set user data
+            $user_data = array(
+                'modesy_sess_admin_id' => $user->id,
+                'modesy_sess_admin_email' => $user->email,
+                'modesy_sess_admin_role' => $user->role,
+                'modesy_sess_admin_logged_in' => true,
+                'modesy_sess_admin_app_key' => $this->config->item('app_key'),
+            );
+            $this->session->set_userdata($user_data);
+            return true;
+        } else {
+            $this->session->set_flashdata('error', trans("login_error"));
+            return false;
+        }
+    }
+
     //login direct
     public function login_direct($user)
     {
@@ -225,6 +259,60 @@ class Auth_model extends CI_Model
         return $this->db->insert('users', $data);
     }
 
+    //add administrator
+    public function add_administrators()
+    {
+        $this->load->library('bcrypt');
+
+        $data = $this->auth_model->input_values();
+        //secure password
+        $data['password'] = $this->bcrypt->hash_password($data['password']);
+        $data['user_type'] = "registered";
+        $data["slug"] = $this->generate_uniqe_slug($data["username"]);
+        $data['role'] = "admin";
+        $data['banned'] = 0;
+        $data['email_status'] = 1;
+        $data['token'] = generate_token();
+
+        return $this->db->insert('admin_user', $data);
+    }
+
+    public function change_password_admin()
+    {
+        $this->load->library('bcrypt');
+
+        $user = userAdmin();
+        if (!empty($user)) {
+            $data = $this->change_password_input_values();
+            //password does not match stored password.
+            if (!$this->bcrypt->check_password($data['old_password'], $user->password)) {
+                $this->session->set_flashdata('error', trans("msg_wrong_old_password"));
+                $this->session->set_flashdata('form_data', $this->change_password_input_values());
+                redirect($this->agent->referrer());
+            }
+
+            $datas = array(
+                'password' => $this->bcrypt->hash_password($data['password'])
+            );
+
+            $this->db->where('id', $user->id);
+            $this->db->update('admin_user', $datas);
+            $this->logout_admin();
+        } else {
+            return false;
+        }
+    }
+
+    public function change_password_input_values()
+    {
+        $data = array(
+            'old_password' => $this->input->post('old_password', true),
+            'password' => $this->input->post('password', true),
+            'password_confirm' => $this->input->post('password_confirm', true)
+        );
+        return $data;
+    }
+
     //update slug
     public function update_slug($id)
     {
@@ -261,6 +349,17 @@ class Auth_model extends CI_Model
         $this->session->unset_userdata('modesy_sess_app_key');
     }
 
+    # acasia - logout admin
+    public function logout_admin()
+    {
+        //unset user data
+        $this->session->unset_userdata('modesy_sess_admin_id');
+        $this->session->unset_userdata('modesy_sess_admin_email');
+        $this->session->unset_userdata('modesy_sess_admin_role');
+        $this->session->unset_userdata('modesy_sess_admin_logged_in');
+        $this->session->unset_userdata('modesy_sess_admin_app_key');
+    }
+
     //reset password
     public function reset_password($id)
     {
@@ -284,6 +383,19 @@ class Auth_model extends CI_Model
         if (!empty($user)) {
             $this->db->where('id', $id);
             return $this->db->delete('users');
+        }
+        return false;
+    }
+
+    # acasia - delete user admin
+    public function delete_admin($id)
+    {
+        $id = clean_number($id);
+        $user = $this->get_user($id);
+        $data = ['banned' => 1];
+        if (!empty($user)) {
+            $this->db->where('id', $id);
+            return $this->db->update('admin_user', $data);
         }
         return false;
     }
@@ -350,6 +462,21 @@ class Auth_model extends CI_Model
         return false;
     }
 
+    //is logged in
+    public function is_logged_in_admin()
+    {
+        //check if user logged in
+        if ($this->session->userdata('modesy_sess_admin_logged_in') == true && $this->session->userdata('modesy_sess_admin_app_key') == $this->config->item('app_key')) {
+            $user = $this->get_user($this->session->userdata('modesy_sess_admin_id'));
+            if (!empty($user)) {
+                if ($user->banned == 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     //function get user
     public function get_logged_user()
     {
@@ -361,12 +488,23 @@ class Auth_model extends CI_Model
         }
     }
 
+    # acasia - function get admin
+    public function get_logged_admin()
+    {
+        if ($this->is_logged_in_admin()) {
+            $user_id = $this->session->userdata('modesy_sess_admin_id');
+            $this->db->where('id', $user_id);
+            $query = $this->db->get('admin_user');
+            return $query->row();
+        }
+    }
+
     //is admin
     public function is_admin()
     {
         //check logged in
-        if ($this->is_logged_in()) {
-            $user = $this->get_logged_user();
+        if ($this->is_logged_in_admin()) {
+            $user = $this->get_logged_admin();
             if ($user->role == 'admin') {
                 return true;
             }
@@ -391,12 +529,29 @@ class Auth_model extends CI_Model
         return $query->row();
     }
 
+    # acasia - get admin by email
+    public function get_admin_by_email($email)
+    {
+        $this->db->where('email', $email);
+        $query = $this->db->get('admin_user');
+        return $query->row();
+    }
+
     //get user by username
     public function get_user_by_username($username)
     {
         $username = remove_special_characters($username);
         $this->db->where('username', $username);
         $query = $this->db->get('users');
+        return $query->row();
+    }
+
+    # acasia - get admin by username
+    public function get_admin_by_username($username)
+    {
+        $username = remove_special_characters($username);
+        $this->db->where('username', $username);
+        $query = $this->db->get('admin_user');
         return $query->row();
     }
 
@@ -483,6 +638,14 @@ class Auth_model extends CI_Model
         return $query->result();
     }
 
+    # acasia - get administrators
+    public function get_administratorsUser()
+    {
+        $this->db->where('role', "admin");
+        $query = $this->db->get('admin_user');
+        return $query->result();
+    }
+
     //get shop opening requests
     public function get_shop_opening_requests()
     {
@@ -540,10 +703,59 @@ class Auth_model extends CI_Model
         }
     }
 
+    # acasia - check if email is unique
+    public function is_unique_admin_email($email, $user_id = 0)
+    {
+        $user_id = clean_number($user_id);
+        $user = $this->auth_model->get_admin_by_email($email);
+
+        //if id doesnt exists
+        if ($user_id == 0) {
+            if (empty($user)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        if ($user_id != 0) {
+            if (!empty($user) && $user->id != $user_id) {
+                //email taken
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
     //check if username is unique
     public function is_unique_username($username, $user_id = 0)
     {
         $user = $this->get_user_by_username($username);
+
+        //if id doesnt exists
+        if ($user_id == 0) {
+            if (empty($user)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        if ($user_id != 0) {
+            if (!empty($user) && $user->id != $user_id) {
+                //username taken
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
+    # acasia - if username is unique
+    public function is_unique_admin_username($username, $user_id = 0)
+    {
+        $user = $this->get_admin_by_username($username);
 
         //if id doesnt exists
         if ($user_id == 0) {

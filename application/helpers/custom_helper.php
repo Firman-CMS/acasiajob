@@ -29,6 +29,16 @@ if (!function_exists('auth_check')) {
     }
 }
 
+# acasia - check auth admin
+if (!function_exists('auth_check_admin')) {
+    function auth_check_admin()
+    {
+        // Get a reference to the controller object
+        $ci =& get_instance();
+        return $ci->auth_model->is_logged_in_admin();
+    }
+}
+
 //is admin
 if (!function_exists('is_admin')) {
     function is_admin()
@@ -48,6 +58,22 @@ if (!function_exists('user')) {
         $user = $ci->auth_model->get_logged_user();
         if (empty($user)) {
             $ci->auth_model->logout();
+        } else {
+            return $user;
+        }
+    }
+}
+
+# acasiajob get logged admin
+if (!function_exists('userAdmin')) {
+    function userAdmin()
+    {
+        // Get a reference to the controller object
+        $ci =& get_instance();
+        // $user = $ci->auth_model->get_logged_user();
+        $user = $ci->auth_model->get_logged_admin();
+        if (empty($user)) {
+            $ci->auth_model->logout_admin();
         } else {
             return $user;
         }
@@ -404,7 +430,7 @@ if (!function_exists('get_favicon')) {
                 return base_url() . $settings->favicon;
             }
         }
-        return base_url() . "assets/img/favicon.png";
+        return base_url() . "assets/img/faviconAcasia.jpg";
     }
 }
 
@@ -1483,6 +1509,15 @@ if (!function_exists('get_custom_filters')) {
     }
 }
 
+//get custom filters
+if (!function_exists('get_unread_contact_message')) {
+    function get_unread_contact_message()
+    {
+        $ci =& get_instance();
+        return $ci->contact_model->get_unread_messages();
+    }
+}
+
 //get sess product filters
 if (!function_exists('get_sess_product_filters')) {
     function get_sess_product_filters()
@@ -1809,6 +1844,17 @@ function getAllUserDeviceId()
     $deviceId = $ci->auth_model->getAllDeviceId();
 
     return $deviceId;
+}
+
+function getPicturePath($picturePath)
+{
+    if ($picturePath) {
+        $logo = base_url() . $picturePath;
+    } else {
+        $logo = base_url() . 'assets/img/no-image.jpg';
+    }
+
+    return $logo;
 }
 
 ?>

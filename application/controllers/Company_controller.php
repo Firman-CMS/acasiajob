@@ -29,7 +29,8 @@ class Notifikasi_controller extends Admin_Core_Controller
     {
         $data['title'] = trans("notif_history");
         $data['form_action'] = admin_url() . "notif-history";
-        $pagination = $this->paginate(admin_url() . 'notif-history', $this->notifikasi_model->get_paginated_notif_count());
+        $pagination = $this->paginate(admin_url() . 'deleted-products', $this->product_admin_model->get_paginated_deleted_products_count('deleted_products'));
+        $pagination2 = $this->paginate(admin_url() . 'notif-history', $this->notifikasi_model->get_paginated_notif_count());
         $data['products'] = $this->notifikasi_model->get_all_notif($pagination['per_page'], $pagination['offset']);
 
         $this->load->view('admin/includes/_header', $data);

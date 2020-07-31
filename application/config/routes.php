@@ -54,12 +54,14 @@ include_once "route_slugs.php";
 //routes
 $r_admin = $custom_slug_array["admin"];
 
-$route['default_controller'] = 'common_controller/admin_login';
+// $route['default_controller'] = 'aj_common_controller/admin_login';
+$route['default_controller'] = 'aj_home_controller/error_404';
 $route['404_override'] = 'home_controller/error_404';
 $route['translate_uri_dashes'] = FALSE;
-$route['error-404'] = 'home_controller/error_404';
+$route['error-404'] = 'aj_home_controller/error_404';
 //auth routes
 $route['logout'] = 'common_controller/logout';
+$route['logout_'] = 'aj_common_controller/logoutAdmin';
 $route['register'] = 'auth_controller/register';
 $route['forgot-password'] = 'auth_controller/forgot_password';
 $route['reset-password'] = 'auth_controller/reset_password';
@@ -128,7 +130,7 @@ $route["rss-feeds"] = 'rss_controller/rss_feeds';
 $route["rss/latest-products"] = 'rss_controller/latest_products';
 $route["rss/promoted-products"] = 'rss_controller/promoted_products';
 $route["rss/category/(:any)"] = 'rss_controller/rss_by_category/$1';
-$route["rss/seller/(:any)"] = 'rss_controller/rss_by_seller/$1';
+$route["rss/seller/(:any)"] = 'rss_cjobontroller/rss_by_seller/$1';
 /*cart*/
 $route["cart"] = 'cart_controller/cart';
 $route["cart/shipping"] = 'cart_controller/shipping';
@@ -198,6 +200,10 @@ $route[$r_admin . '/promoted-products-transactions'] = 'product_admin_controller
 $route[$r_admin . '/promoted-products-pricing'] = 'product_admin_controller/promoted_products_pricing';
 $route[$r_admin . '/notif-history'] = 'notifikasi_controller/notif_history';
 $route[$r_admin . '/new-notif'] = 'notifikasi_controller/new_notif';
+
+$route[$r_admin . '/list-company'] = 'aj_company_controller/list_company';
+$route[$r_admin . '/new-company'] = 'aj_company_controller/new_company';
+$route[$r_admin . '/detail-company/(:num)'] = 'aj_company_controller/detail_company/$1';
 /*page routes*/
 $route[$r_admin . '/pages'] = 'page_controller/pages';
 $route[$r_admin . '/update-page/(:num)'] = 'page_controller/update_page/$1';
@@ -226,8 +232,15 @@ $route[$r_admin . '/blog-add-post'] = 'blog_controller/add_post';
 $route[$r_admin . '/blog-posts'] = 'blog_controller/posts';
 $route[$r_admin . '/update-blog-post/(:num)'] = 'blog_controller/update_post/$1';
 $route[$r_admin . '/blog-categories'] = 'blog_controller/categories';
+$route[$r_admin . '/job-categories'] = 'aj_category_controller/job_category';
+$route[$r_admin . '/job-position'] = 'aj_position_controller/job_position';
+$route[$r_admin . '/edit-category/(:num)'] = 'aj_category_controller/edit/$1';
+$route[$r_admin . '/edit-jobposition/(:num)'] = 'aj_position_controller/edit/$1';
 $route[$r_admin . '/update-blog-category/(:num)'] = 'blog_controller/update_category/$1';
 /*comment routes*/
+$route[$r_admin . '/new-job-vacancy'] = 'aj_job_controller/job_vacancy';
+$route[$r_admin . '/list-job-vacancy'] = 'aj_job_controller/list';
+$route[$r_admin . '/detail-job/(:num)'] = 'aj_job_controller/detail_job/$1';
 $route[$r_admin . '/product-comments'] = 'product_admin_controller/comments';
 $route[$r_admin . '/blog-comments'] = 'blog_controller/comments';
 /*review routes*/
@@ -251,9 +264,12 @@ $route[$r_admin . '/update-city/(:num)'] = 'admin_controller/update_city/$1';
 /*users routes*/
 $route[$r_admin . '/members'] = 'admin_controller/members';
 $route[$r_admin . '/vendors'] = 'admin_controller/vendors';
-$route[$r_admin . '/administrators'] = 'admin_controller/administrators';
+// $route[$r_admin . '/administrators'] = 'admin_controller/administrators';
+$route[$r_admin . '/administrators'] = 'aj_admin_controller/administrators';
 $route[$r_admin . '/shop-opening-requests'] = 'admin_controller/shop_opening_requests';
-$route[$r_admin . '/add-administrator'] = 'admin_controller/add_administrator';
+$route[$r_admin . '/add-administrator'] = 'aj_admin_controller/add_administrator';
+$route[$r_admin . '/change-password'] = 'aj_admin_controller/change_password';
+$route[$r_admin . '/edit-admin/(:num)'] = 'aj_admin_controller/edit_administrator/$1';
 
 $route[$r_admin . "/cache-system"] = 'admin_controller/cache_system';
 $route[$r_admin . '/storage'] = 'admin_controller/storage';
@@ -273,7 +289,7 @@ $route[$r_admin . '/update-currency/(:num)'] = 'admin_controller/update_currency
 $route[$r_admin . "/send-email-subscribers"] = 'admin_controller/send_email_subscribers';
 $route[$r_admin . "/subscribers"] = 'admin_controller/subscribers';
 
-$route[$r_admin . '/contact-messages'] = 'admin_controller/contact_messages';
+$route[$r_admin . '/contact-messages'] = 'aj_admin_controller/contact_messages';
 $route[$r_admin . '/preferences'] = 'admin_controller/preferences';
 
 //form settings

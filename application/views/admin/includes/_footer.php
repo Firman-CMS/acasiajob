@@ -137,8 +137,39 @@
             table.column(<?php echo $lang_search_column; ?>).search($(this).val()).draw();
         });
     </script>
+    <script>
+        var table = $('#cs_datatable').DataTable({
+            dom: 'l<"#table_dropdown">frtip',
+            "order": [[0, "desc"]],
+            "aLengthMenu": [[15, 30, 60, 100], [15, 30, 60, 100, "All"]]
+        });
+        //insert a label
+        $('<label class="table-label"><label/>').text('Language').appendTo('#table_dropdown');
+
+        //insert the select and some options
+        $select = $('<select class="form-control input-sm"><select/>').appendTo('#table_dropdown');
+
+        $('<option/>').val('').text('<?php echo trans("all"); ?>').appendTo($select);
+        <?php foreach ($languages as $lang): ?>
+        $('<option/>').val('<?php echo $lang->name; ?>').text('<?php echo $lang->name; ?>').appendTo($select);
+        <?php endforeach; ?>
+
+        table.column(<?php echo $lang_search_column; ?>).search('').draw();
+
+        $("#table_dropdown select").change(function () {
+            table.column(<?php echo $lang_search_column; ?>).search($(this).val()).draw();
+        });
+    </script>
 <?php endif; ?>
-<script>
+<script>//Date picker
+    $(function(){
+      $(".datepicker").datepicker({
+          format: 'yyyy-mm-dd',
+          autoclose: true,
+          todayHighlight: true,
+      });
+     });
+    
     $('#location_1').on('ifChecked', function () {
         $("#location_countries").hide();
     });

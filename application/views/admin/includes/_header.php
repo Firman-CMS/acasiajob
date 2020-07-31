@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/admin/vendor/magnific-popup/magnific-popup.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/admin/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/admin/css/bootstrap-datepicker.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/admin/css/_all-skins.min.css">
@@ -35,6 +36,7 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/admin/css/custom.css">
     <!-- jQuery 3 -->
     <script src="<?php echo base_url(); ?>assets/admin/js/jquery.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/admin/js/bootstrap-datepicker.min.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -71,23 +73,23 @@
                     </li>
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                            <img src="<?php echo get_user_avatar(user()); ?>" class="user-image" alt="">
-                            <span class="hidden-xs"><?php echo user()->username; ?> <i class="fa fa-caret-down"></i> </span>
+                            <img src="<?php echo get_user_avatar(userAdmin()); ?>" class="user-image" alt="">
+                            <span class="hidden-xs"><?php echo userAdmin()->username; ?> <i class="fa fa-caret-down"></i> </span>
                         </a>
 
                         <ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="user-options">
+                            <!-- <li>
+                                <a href="<?php #echo base_url(); ?>profile/<?php #echo userAdmin()->slug; ?>"><i class="fa fa-user"></i> <?php #echo trans("profile"); ?></a>
+                            </li> -->
+                            <!-- <li>
+                                <a href="<?php #echo base_url(); ?>settings"><i class="fa fa-cog"></i> <?php #echo trans("update_profile"); ?></a>
+                            </li> -->
                             <li>
-                                <a href="<?php echo base_url(); ?>profile/<?php echo user()->slug; ?>"><i class="fa fa-user"></i> <?php echo trans("profile"); ?></a>
-                            </li>
-                            <li>
-                                <a href="<?php echo base_url(); ?>settings"><i class="fa fa-cog"></i> <?php echo trans("update_profile"); ?></a>
-                            </li>
-                            <li>
-                                <a href="<?php echo base_url(); ?>settings/change-password"><i class="fa fa-lock"></i> <?php echo trans("change_password"); ?></a>
+                                <a href="<?php echo base_url(); ?>admin/change-password"><i class="fa fa-lock"></i> <?php echo trans("change_password"); ?></a>
                             </li>
                             <li class="divider"></li>
                             <li>
-                                <a href="<?php echo base_url(); ?>logout"><i class="fa fa-sign-out"></i> <?php echo trans("logout"); ?></a>
+                                <a href="<?php echo base_url(); ?>logout_"><i class="fa fa-sign-out"></i> <?php echo trans("logout"); ?></a>
                             </li>
                         </ul>
                     </li>
@@ -103,10 +105,10 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="<?php echo get_user_avatar(user()); ?>" class="img-circle" alt="">
+                    <img src="<?php echo get_user_avatar(userAdmin()); ?>" class="img-circle" alt="">
                 </div>
                 <div class="pull-left info">
-                    <p><?php echo user()->username; ?></p>
+                    <p><?php echo userAdmin()->username; ?></p>
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                 </div>
             </div>
@@ -120,12 +122,12 @@
                         <i class="fa fa-home"></i> <span><?php echo trans("home"); ?></span>
                     </a>
                 </li>
-                <li>
-                    <a href="<?php echo admin_url(); ?>navigation">
+                <!-- <li>
+                    <a href="<?php #echo admin_url(); ?>navigation">
                         <i class="fa fa-th"></i>
-                        <span><?php echo trans("navigation"); ?></span>
+                        <span><?php #echo trans("navigation"); ?></span>
                     </a>
-                </li>
+                </li> -->
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-mobile"></i>
@@ -136,6 +138,89 @@
                         <li><a href="<?php echo admin_url(); ?>notif-history"> <?php echo trans("notif_history"); ?></a></li>
                         
                         <li><a href="<?php echo admin_url(); ?>new-notif"> <?php echo trans("new_notif"); ?></a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-industry"></i>
+                        <span><?php echo trans("job_vacancy"); ?></span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="<?php echo admin_url(); ?>list-job-vacancy"><?php echo trans("list_job_vacancy"); ?></a></li>
+                        <li><a href="<?php echo admin_url(); ?>new-job-vacancy"><?php echo trans("new_job_vacancy"); ?></a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-building"></i>
+                        <span><?php echo trans("company"); ?></span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="<?php echo admin_url(); ?>list-company"> <?php echo trans("list_company"); ?></a></li>
+                        <li><a href="<?php echo admin_url(); ?>new-company"> <?php echo trans("new_company"); ?></a></li>
+
+                    </ul>
+                </li>
+                
+                <li>
+                    <a href="<?php echo admin_url(); ?>job-categories">
+                        <i class="fa fa-folder-open" aria-hidden="true"></i>
+                        <span><?php echo trans("job_category"); ?></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?php echo admin_url(); ?>job-position">
+                        <i class="fa fa-black-tie" aria-hidden="true"></i>
+                        <span><?php echo trans("job_position"); ?></span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-users"></i>
+                        <span><?php echo trans("users"); ?></span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="<?php echo admin_url(); ?>list-company">List user</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-user"></i>
+                        <span><?php echo trans("administrators"); ?></span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="<?php echo admin_url(); ?>add-administrator"> <?php echo trans("add_administrator"); ?></a></li>
+                        <li><a href="<?php echo admin_url(); ?>administrators"> <?php echo trans("administrators"); ?></a></li>
+                        <!-- <li><a href="<?php #echo admin_url(); ?>vendors"> <?php #echo trans("vendors"); ?></a></li>
+                        <li><a href="<?php #echo admin_url(); ?>members"> <?php #echo trans("members"); ?></a></li>
+                        <li><a href="<?php #echo admin_url(); ?>shop-opening-requests"> <?php #echo trans("shop_opening_requests"); ?></a></li> -->
+                    </ul>
+                </li>
+                <li>
+                    <a href="<?php echo admin_url(); ?>contact-messages">
+                        <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                        <?php if (count(get_unread_contact_message()) > 0) { ?>
+                        <small class="label pull-right bg-green">new</small>
+                        <?php }?>
+                        <span><?php echo trans("contact_messages"); ?></span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-map-marker"></i>
+                        <span><?php echo trans("location"); ?></span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="<?php echo admin_url(); ?>countries"> <?php echo trans("countries"); ?></a></li>
+                        <li><a href="<?php echo admin_url(); ?>states"> <?php echo trans("states"); ?></a></li>
+                        <li><a href="<?php echo admin_url(); ?>cities"> <?php echo trans("cities"); ?></a></li>
+                        <!-- <li><a href="<?php #echo admin_url(); ?>location-settings"> <?php #echo trans("location_settings"); ?></a></li> -->
                     </ul>
                 </li>
                 <li class="treeview">
@@ -183,17 +268,7 @@
                         <li><a href="<?php echo admin_url(); ?>promoted-products-transactions"> <?php echo trans("transactions"); ?></a></li>
                     </ul>
                 </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-folder-open"></i>
-                        <span><?php echo trans("categories"); ?></span>
-                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="<?php echo admin_url(); ?>add-category"> <?php echo trans("add_category"); ?></a></li>
-                        <li><a href="<?php echo admin_url(); ?>categories"> <?php echo trans("categories"); ?></a></li>
-                    </ul>
-                </li>
+                
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-plus-square-o"></i>
@@ -263,12 +338,7 @@
                         <li><a href="<?php echo admin_url(); ?>blog-categories"> <?php echo trans("categories"); ?></a></li>
                     </ul>
                 </li>
-                <li>
-                    <a href="<?php echo admin_url(); ?>contact-messages">
-                        <i class="fa fa-paper-plane" aria-hidden="true"></i>
-                        <span><?php echo trans("contact_messages"); ?></span>
-                    </a>
-                </li>
+                
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-envelope"></i> <span><?php echo trans("newsletter"); ?></span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
@@ -282,20 +352,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-users"></i>
-                        <span><?php echo trans("users"); ?></span>
-                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="<?php echo admin_url(); ?>add-administrator"> <?php echo trans("add_administrator"); ?></a></li>
-                        <li><a href="<?php echo admin_url(); ?>administrators"> <?php echo trans("administrators"); ?></a></li>
-                        <li><a href="<?php echo admin_url(); ?>vendors"> <?php echo trans("vendors"); ?></a></li>
-                        <li><a href="<?php echo admin_url(); ?>members"> <?php echo trans("members"); ?></a></li>
-                        <li><a href="<?php echo admin_url(); ?>shop-opening-requests"> <?php echo trans("shop_opening_requests"); ?></a></li>
-                    </ul>
-                </li>
+                
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-star"></i>
@@ -340,19 +397,7 @@
                         <i class="fa fa-dollar"></i> <span><?php echo trans("ad_spaces"); ?></span>
                     </a>
                 </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-map-marker"></i>
-                        <span><?php echo trans("location"); ?></span>
-                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="<?php echo admin_url(); ?>countries"> <?php echo trans("countries"); ?></a></li>
-                        <li><a href="<?php echo admin_url(); ?>states"> <?php echo trans("states"); ?></a></li>
-                        <li><a href="<?php echo admin_url(); ?>cities"> <?php echo trans("cities"); ?></a></li>
-                        <li><a href="<?php echo admin_url(); ?>location-settings"> <?php echo trans("location_settings"); ?></a></li>
-                    </ul>
-                </li>
+                
                 <li>
                     <a href="<?php echo admin_url(); ?>social-login">
                         <i class="fa fa-share-alt"></i> <span><?php echo trans("social_login"); ?></span>

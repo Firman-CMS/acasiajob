@@ -30,10 +30,10 @@
                         </tr>
                         </thead>
                         <tbody>
-
+                        <?php $i = 1; ?>
                         <?php foreach ($users as $user): ?>
                             <tr>
-                                <td><?php echo html_escape($user->id); ?></td>
+                                <td><?php echo $i; ?></td>
                                 <td>
                                     <img src="<?php echo get_user_avatar($user); ?>" alt="user" class="img-responsive" style="height: 50px;">
                                 </td>
@@ -50,15 +50,18 @@
                                         </button>
                                         <ul class="dropdown-menu options-dropdown">
                                             <li>
-                                                <a href="javascript:void(0)" onclick="delete_item('admin_controller/delete_user_post','<?php echo $user->id; ?>','<?php echo trans("confirm_user"); ?>');"><i class="fa fa-trash option-icon"></i><?php echo trans('delete'); ?></a>
+                                                <a href="javascript:void(0)" onclick="delete_item('aj_admin_controller/edit_admin','<?php echo $user->id; ?>','<?php echo trans("confirm_user"); ?>');"><i class="fa fa-trash option-icon"></i>Edit user</a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0)" onclick="delete_item('aj_admin_controller/delete_admin_post','<?php echo $user->id; ?>','<?php echo trans("confirm_user"); ?>');"><i class="fa fa-trash option-icon"></i><?php echo trans('delete'); ?></a>
                                             </li>
                                         </ul>
                                     </div>
                                 </td>
                             </tr>
 
+                        <?php $i++; ?>
                         <?php endforeach; ?>
-
                         </tbody>
                     </table>
                 </div>

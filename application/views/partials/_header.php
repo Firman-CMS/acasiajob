@@ -112,45 +112,50 @@ if ($language->id == $site_lang->id):?>
                                         <a href="<?php echo lang_base_url(); ?>"><img style="width:44px;height:44px;" src="<?php echo get_logo($general_settings); ?>" alt="logo"></a>
                                     </div>
 <div class="left" style="padding-right:5px;">
-                                            <div  class="dropdown search-select">
-                                                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+
+
+
+                                            <!-- <div  class="dropdown search-select"> -->
+                                                <!-- <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
                                                    Kategori
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                  <ul class="dropdown-menu show"  style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 28px, 0px);padding:10px;width:170px;top:-22px;">
+                                                </button> -->
+                                                <!-- <div class="dropdown-menu"> -->
+                                                <!-- <ul class="dropdown-menu show"  style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 28px, 0px);padding:10px;width:170px;top:-22px;">
                                                                                                     
-                                                                                                <li style="padding:5px;display:block-title;">
+                                                <li style="padding:5px;display:block-title;">
                                                     <a href="https://arenatani.com/category/pertanian-3">
-                                                       <img  src="<?php echo lang_base_url(); ?>/assets/img/pertanian.png">
-                                                        Pertanian                                                    </a>
+                                                       <img  src="<?php #echo lang_base_url(); ?>/assets/img/pertanian.png">
+                                                        Pertanian
+                                                    </a>
                                                 </li>
-                                                                                                <li style="padding:5px;border-top:1px solid #ddd;">
+                                                <li style="padding:5px;border-top:1px solid #ddd;">
                                                     <a href="https://arenatani.com/category/perkebunan-4">
-                                                         <img src="<?php echo lang_base_url(); ?>/assets/img/perkebunan.png">
-                                                        Perkebunan                                                                                                           </a>
+                                                         <img src="<?php #echo lang_base_url(); ?>/assets/img/perkebunan.png">
+                                                        Perkebunan
+                                                    </a>
                                                 </li>
                                                 <li style="padding:5px;border-top:1px solid #ddd;">
                                                     <a href="https://arenatani.com/category/perikanan">
-                                                       <img src="<?php echo lang_base_url(); ?>/assets/img/perikanan.png">
+                                                       <img src="<?php# echo lang_base_url(); ?>/assets/img/perikanan.png">
                                                         Perikanan                                                    </a>
-                                                </li>
-                                                <li style="padding:5px;border-top:1px solid #ddd;">
+                                                </li> -->
+                                                <!-- <li style="padding:5px;border-top:1px solid #ddd;">
                                                     <a href="https://arenatani.com/category/peternakan" class="logout">
-                                                         <img src="<?php echo lang_base_url(); ?>/assets/img/peternakan.png">
+                                                         <img src="<?php #echo lang_base_url(); ?>/assets/img/peternakan.png">
                                                        Peternakan                                                   </a>
-                                                </li>
-                                                <li style="padding:5px;border-top:1px solid #ddd;">
+                                                </li> -->
+                                                <!-- <li style="padding:5px;border-top:1px solid #ddd;">
                                                     <a href="https://arenatani.com/category/ukm" class="logout">
                                                          <img src="https://arenatani.com/assets/img/ukm.png">
                                                        UKM                                                   </a>
-                                                </li>
-                                            </ul>
-                                                </div>
-                                            </div>
+                                                </li> -->
+                                            <!-- </ul> -->
+                                                <!-- </div>
+                                            </div> -->
                                            
                                         </div>
                                     <div class="top-search-bar" style="width:300px">
-                                        <?php echo form_open(lang_base_url() . 'search', ['id' => 'form_validate_search', 'class' => 'form_search_main', 'method' => 'get']); ?>
+                                        <?php #echo form_open(lang_base_url() . 'search', ['id' => 'form_validate_search', 'class' => 'form_search_main', 'method' => 'get']); ?>
                                         <?php if (isset($search_type)): ?>
             <input type="hidden" class="search_type_input" name="search_type" value="member">
         <?php else: ?>
@@ -159,7 +164,7 @@ if ($language->id == $site_lang->id):?>
                                         <div class="right" style="width:300px">
                                             <input type="text" name="search" maxlength="300" pattern=".*\S+.*" id="input_search" class="form-control input-search" value="<?php echo (!empty($filter_search)) ? $filter_search : ''; ?>" placeholder="Mau cari apa hari ini ?" required autocomplete="off">
                                             <button class="btn btn-default btn-search"><i class="icon-search"></i></button>
-                                            <div id="response_search_results" class="search-results-ajax"></div>
+                                            <!-- <div id="response_search_results" class="search-results-ajax"></div> -->
                                         </div>
                                         <?php echo form_close(); ?>
                                     </div>
@@ -180,23 +185,23 @@ if ($language->id == $site_lang->id):?>
                                         </li>
                                     <?php endif; ?>
 
-                                    <?php if ($this->auth_check): ?>
+                                    <!-- <?php #if ($this->auth_check): ?>
                                         <li class="nav-item li-main-nav-right">
-                                            <a href="<?php echo lang_base_url(); ?>favorites/<?php echo $this->auth_user->slug; ?>">
-                                                <i class="icon-heart-o"></i><?php echo trans("favorites"); ?>
+                                            <a href="<?php #echo lang_base_url(); ?>favorites/<?php #echo $this->auth_user->slug; ?>">
+                                                <i class="icon-heart-o"></i><?php #echo trans("favorites"); ?>
                                             </a>
                                         </li>
-                                    <?php else: ?>
+                                    <?php #else: ?>
                                         <li class="nav-item li-main-nav-right">
-                                            <a href="<?php echo lang_base_url(); ?>favorites">
-                                                <i class="icon-heart-o"></i><?php echo trans("favorites"); ?>
+                                            <a href="<?php #echo lang_base_url(); ?>favorites">
+                                                <i class="icon-heart-o"></i><?php #echo trans("favorites"); ?>
                                             </a>
                                         </li>
-                                    <?php endif; ?>
+                                    <?php #endif; ?> -->
 
 
                                     <!--Check auth-->
-                                    <?php if (auth_check()): ?>
+                                    <!-- <?php #if (auth_check()): ?>
                                         <li class="dropdown profile-dropdown">
                                             <a class="dropdown-toggle a-profile" data-toggle="dropdown" href="javascript:void(0)"
                                                aria-expanded="false">
@@ -284,13 +289,13 @@ if ($language->id == $site_lang->id):?>
                                             <li class="nav-item"><a href="<?php echo lang_base_url(); ?>sell-now" class="btn btn-md btn-custom btn-sell-now"><?php echo trans("sell_now"); ?></a></li>
                                         <?php endif; ?>
 
-                                    <?php else: ?>
-                                        <li class="nav-item"><a href="javascript:void(0)" data-toggle="modal" data-target="#loginModal"><?php echo trans("login"); ?></a></li>
-                                        <li class="nav-item"><a href="<?php echo lang_base_url(); ?>register"><?php echo trans("register"); ?></a></li>
-                                        <?php if (is_multi_vendor_active()): ?>
-                                            <li class="nav-item"><a href="javascript:void(0)" class="btn btn-md btn-custom btn-sell-now" data-toggle="modal" data-target="#loginModal"><?php echo trans("sell_now"); ?></a></li>
-                                        <?php endif; ?>
-                                    <?php endif; ?>
+                                    <?php #else: ?>
+                                        <li class="nav-item"><a href="javascript:void(0)" data-toggle="modal" data-target="#loginModal"><?php #echo trans("login"); ?></a></li>
+                                        <li class="nav-item"><a href="<?php #echo lang_base_url(); ?>register"><?php #echo trans("register"); ?></a></li>
+                                        <?php #if (is_multi_vendor_active()): ?>
+                                            <li class="nav-item"><a href="javascript:void(0)" class="btn btn-md btn-custom btn-sell-now" data-toggle="modal" data-target="#loginModal"><?php #echo trans("sell_now"); ?></a></li>
+                                        <?php #endif; ?>
+                                    <?php #endif; ?> -->
                                 </ul>
 
                             </div>

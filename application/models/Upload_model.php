@@ -228,6 +228,23 @@ class Upload_model extends CI_Model
 		return null;
 	}
 
+	//logo company upload
+	public function logo_company_upload($file_name)
+	{
+		$config['upload_path'] = './uploads/company/';
+		$config['allowed_types'] = 'gif|jpg|jpeg|png|svg';
+		$config['file_name'] = 'logo_' . uniqid();
+		$this->load->library('upload', $config);
+
+		if ($this->upload->do_upload($file_name)) {
+			$data = array('upload_data' => $this->upload->data());
+			if (isset($data['upload_data']['full_path'])) {
+				return 'uploads/company/' . $data['upload_data']['file_name'];
+			}
+		}
+		return null;
+	}
+
 	//favicon image upload
 	public function favicon_upload($file_name)
 	{

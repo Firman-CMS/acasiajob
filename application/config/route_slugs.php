@@ -1,2 +1,2 @@
 <?php defined("BASEPATH") OR exit("No direct script access allowed");
-$custom_slug_array["admin"] = "pawon";?>
+$custom_slug_array["admin"] = "admin";?>

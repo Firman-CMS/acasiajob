@@ -1375,6 +1375,7 @@ function get_states(val) {
 }
 
 function get_cities(val) {
+    console.log(val);
     var data = {
         "state_id": val,
         "lang_folder": lang_folder

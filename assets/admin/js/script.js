@@ -180,7 +180,36 @@ function delete_selected_products_permanently(message) {
             data[csfr_token_name] = $.cookie(csfr_cookie_name);
             $.ajax({
                 type: "POST",
-                url: base_url + "product_admin_controller/delete_selected_products_permanently",
+                url: base_url + "product_admin_controller/asdelete_selected_products_permanently",
+                data: data,
+                success: function (response) {
+                    location.reload();
+                }
+            });
+        }
+    });
+};
+
+function delete_selected_company(message) {
+    swal({
+        text: message,
+        icon: "warning",
+        buttons: true,
+        buttons: [sweetalert_cancel, sweetalert_ok],
+        dangerMode: true,
+    }).then(function (willDelete) {
+        if (willDelete) {
+            var company_ids = [];
+            $("input[name='checkbox-table']:checked").each(function () {
+                company_ids.push(this.value);
+            });
+            var data = {
+                'id': company_ids,
+            };
+            data[csfr_token_name] = $.cookie(csfr_cookie_name);
+            $.ajax({
+                type: "POST",
+                url: base_url + "aj_company_controller/delete_selected_company",
                 data: data,
                 success: function (response) {
                     location.reload();
@@ -602,6 +631,44 @@ function approve_bank_transfer(id, order_id, message) {
         }
     });
 };
+
+function get_state(val) {
+    console.log(val);
+    console.log(base_url);
+    var data = {
+        "country_id": val
+    };
+    $.ajax({
+        type: "POST",
+        url: base_url + "aj_job_controller/get_state",
+        data: data,
+        success: function (response) {
+            console.log(response);
+            // $('#cities').children('option:not(:first)').remove();
+            $('#states').children('option').remove();
+            $("#states").append(response);
+        }
+    });
+}
+
+function get_cities(val) {
+    console.log(val);
+    console.log(base_url);
+    var data = {
+        "state_id": val
+    };
+    $.ajax({
+        type: "POST",
+        url: base_url + "aj_job_controller/get_cities",
+        data: data,
+        success: function (response) {
+            console.log(response);
+            // $('#cities').children('option:not(:first)').remove();
+            $('#cities').children('option').remove();
+            $("#cities").append(response);
+        }
+    });
+}
 
 //email preview
 $(document).on('click', '#btn_email_preview', function () {
