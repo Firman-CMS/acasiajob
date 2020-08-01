@@ -89,6 +89,41 @@ class Aj_job_model extends CI_Model
         return $query->result();
     }
 
+    public function get_all_job_active()
+    {
+        $this->db->where('status', 1);
+        $this->db->where('is_deleted', 0);
+        $query = $this->db->get('job_vacancy');
+        return $query->result();
+    }
+
+    public function get_latest_job($limit)
+    {
+        $this->db->select('job_vacancy.*');
+    	$this->db->select('company.company_name');
+    	$this->db->select('job_position.name');
+    	$this->db->select("cities.name AS 'city_name'");
+
+    	$this->db->join('job_position', 'job_vacancy.job_position_id = job_position.id');
+        $this->db->join('company', 'job_vacancy.company_id = company.id');
+        $this->db->join('cities', 'job_vacancy.city_id = cities.id', 'left');
+
+    	$this->db->where('job_vacancy.is_deleted', 0);
+    	$this->db->where('job_vacancy.status', 1);
+        $this->db->order_by('job_vacancy.id', 'DESC');
+        $this->db->limit($limit);
+        $query = $this->db->get('job_vacancy');
+        return $query->result();
+    }
+
+    public function get_latest_company($limit)
+    {
+        $this->db->where('status', 1);
+        $this->db->limit($limit);
+        $this->db->order_by('id', 'DESC');
+        $query = $this->db->get('company');
+        return $query->result();
+    }
     // public function delete_selected_id($id)
     // {
     // 	$data = array(
@@ -119,8 +154,6 @@ class Aj_job_model extends CI_Model
 
         return $list;
     }
-
-
 
     public function get_country_list()
     {

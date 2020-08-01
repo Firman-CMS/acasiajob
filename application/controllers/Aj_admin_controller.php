@@ -10,29 +10,34 @@ class Aj_admin_controller extends Admin_Core_Controller
         if (!is_admin()) {
             redirect(admin_url() . 'login');
         }
+        $this->load->model("aj_job_model");
     }
 
     public function index()
     {
         $data['title'] = trans("admin_panel");
-
-        $data['order_count'] = $this->order_admin_model->get_all_orders_count();
-        $data['product_count'] = $this->product_admin_model->get_products_count();
-        $data['pending_product_count'] = $this->product_admin_model->get_pending_products_count();
-        $data['blog_posts_count'] = $this->blog_model->get_all_posts_count();
-        $data['members_count'] = $this->auth_model->get_members_count();
-
-        $data['latest_orders'] = $this->order_admin_model->get_orders_limited(15);
-
-        $data['latest_pending_products'] = $this->product_admin_model->get_latest_pending_products(15);
-        $data['latest_products'] = $this->product_admin_model->get_latest_products(15);
-
-        $data['latest_reviews'] = $this->review_model->get_latest_reviews(15);
-        $data['latest_comments'] = $this->comment_model->get_latest_comments(15);
+        $data['company_count'] = count($this->aj_job_model->get_company_list());
+        $data['job_count'] = count($this->aj_job_model->get_all_job_active());
+        $data['user_count'] = 0;
+        $data['latest_job'] = $this->aj_job_model->get_latest_job(6);
+        $data['latest_company'] = $this->aj_job_model->get_latest_company(6);
         $data['latest_members'] = $this->auth_model->get_latest_members(6);
+        // $data['order_count'] = $this->order_admin_model->get_all_orders_count();
+        // $data['product_count'] = $this->product_admin_model->get_products_count();
+        // $data['pending_product_count'] = $this->product_admin_model->get_pending_products_count();
+        // $data['blog_posts_count'] = $this->blog_model->get_all_posts_count();
+        // $data['members_count'] = $this->auth_model->get_members_count();
 
-        $data['latest_transactions'] = $this->transaction_model->get_transactions_limited(15);
-        $data['latest_promoted_transactions'] = $this->transaction_model->get_promoted_transactions_limited(15);
+        // $data['latest_orders'] = $this->order_admin_model->get_orders_limited(15);
+
+        // $data['latest_pending_products'] = $this->product_admin_model->get_latest_pending_products(15);
+        // $data['latest_products'] = $this->product_admin_model->get_latest_products(15);
+
+        // $data['latest_reviews'] = $this->review_model->get_latest_reviews(15);
+        // $data['latest_comments'] = $this->comment_model->get_latest_comments(15);
+
+        // $data['latest_transactions'] = $this->transaction_model->get_transactions_limited(15);
+        // $data['latest_promoted_transactions'] = $this->transaction_model->get_promoted_transactions_limited(15);
 
         $this->load->view('admin/includes/_header', $data);
         $this->load->view('admin/index');
