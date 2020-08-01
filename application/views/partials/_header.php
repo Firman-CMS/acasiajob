@@ -205,89 +205,89 @@ if ($language->id == $site_lang->id):?>
                                         <li class="dropdown profile-dropdown">
                                             <a class="dropdown-toggle a-profile" data-toggle="dropdown" href="javascript:void(0)"
                                                aria-expanded="false">
-                                                <?php if ($unread_message_count > 0): ?>
-                                                    <span class="notification"><?php echo $unread_message_count; ?></span>
-                                                <?php endif; ?>
-                                                <img src="<?php echo get_user_avatar($this->auth_user); ?>" alt="<?php echo get_shop_name($this->auth_user); ?>">
-                                                <span class="username"><?php echo character_limiter(get_shop_name($this->auth_user),2, '..'); ?></span>
+                                                <?php #if ($unread_message_count > 0): ?>
+                                                    <span class="notification"><?php #echo $unread_message_count; ?></span>
+                                                <?php #endif; ?>
+                                                <img src="<?php #echo get_user_avatar($this->auth_user); ?>" alt="<?php #echo get_shop_name($this->auth_user); ?>">
+                                                <span class="username"><?php #echo character_limiter(get_shop_name($this->auth_user),2, '..'); ?></span>
                                                 <span class="icon-arrow-down"></span>
                                             </a>
                                             <ul class="dropdown-menu">
-                                                <?php if ($this->auth_user->role == "admin"): ?>
+                                                <?php #if ($this->auth_user->role == "admin"): ?>
                                                     <li>
-                                                        <a href="<?php echo admin_url(); ?>">
+                                                        <a href="<?php #echo admin_url(); ?>">
                                                             <i class="icon-dashboard"></i>
-                                                            <?php echo trans("admin_panel"); ?>
+                                                            <?php #echo trans("admin_panel"); ?>
                                                         </a>
                                                     </li>
-                                                <?php endif; ?>
+                                                <?php #endif; ?>
                                                 <li>
-                                                    <a href="<?php echo lang_base_url(); ?>profile/<?php echo $this->auth_user->slug; ?>">
+                                                    <a href="<?php #echo lang_base_url(); ?>profile/<?php #echo $this->auth_user->slug; ?>">
                                                         <i class="icon-user"></i>
-                                                        <?php echo trans("view_profile"); ?>
+                                                        <?php #echo trans("view_profile"); ?>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                        <a href="<?php echo lang_base_url(); ?>transaksi">
+                                                        <a href="<?php #echo lang_base_url(); ?>transaksi">
                                                             <i class="icon-shopping-basket"></i>
-                                                            <?php echo trans("orders"); ?>
+                                                            <?php #echo trans("orders"); ?>
                                                         </a>
                                                     </li>
-                                                <?php if (is_marketplace_active()): ?>
+                                                <?php #if (is_marketplace_active()): ?>
                                                     <li>
-                                                        <a href="<?php echo lang_base_url(); ?>orders">
+                                                        <a href="<?php #echo lang_base_url(); ?>orders">
                                                             <i class="icon-shopping-basket"></i>
-                                                            <?php echo trans("orders"); ?>
+                                                            <?php #echo trans("orders"); ?>
                                                         </a>
                                                     </li>
-                                                    <?php if (is_user_vendor()): ?>
+                                                    <?php #if (is_user_vendor()): ?>
                                                         <li>
-                                                            <a href="<?php echo lang_base_url(); ?>sales">
+                                                            <a href="<?php #echo lang_base_url(); ?>sales">
                                                                 <i class="icon-shopping-bag"></i>
-                                                                <?php echo trans("sales"); ?>
+                                                                <?php #echo trans("sales"); ?>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a href="<?php echo lang_base_url(); ?>earnings">
+                                                            <a href="<?php #echo lang_base_url(); ?>earnings">
                                                                 <i class="icon-wallet"></i>
-                                                                <?php echo trans("earnings"); ?>
+                                                                <?php #echo trans("earnings"); ?>
                                                             </a>
                                                         </li>
-                                                    <?php endif; ?>
+                                                    <?php #endif; ?>
                                                     <li>
-                                                        <a href="<?php echo lang_base_url(); ?>downloads">
+                                                        <a href="<?php #echo lang_base_url(); ?>downloads">
                                                             <i class="icon-download"></i>
-                                                            <?php echo trans("downloads"); ?>
+                                                            <?php #echo trans("downloads"); ?>
                                                         </a>
                                                     </li>
-                                                <?php endif; ?>
+                                                <?php #endif; ?>
                                                 <li>
-                                                    <a href="<?php echo lang_base_url(); ?>messages">
+                                                    <a href="<?php #echo lang_base_url(); ?>messages">
                                                         <i class="icon-mail"></i>
-                                                        <?php echo trans("messages"); ?>
-                                                        <?php if ($unread_message_count > 0): ?>
-                                                            <span class="span-message-count"><?php echo $unread_message_count; ?></span>
-                                                        <?php endif; ?>
+                                                        <?php #echo trans("messages"); ?>
+                                                        <?php #if ($unread_message_count > 0): ?>
+                                                            <span class="span-message-count"><?php #echo $unread_message_count; ?></span>
+                                                        <?php #endif; ?>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="<?php echo lang_base_url(); ?>settings/update-profile">
+                                                    <a href="<?php #echo lang_base_url(); ?>settings/update-profile">
                                                         <i class="icon-settings"></i>
-                                                        <?php echo trans("settings"); ?>
+                                                        <?php #echo trans("settings"); ?>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="<?php echo base_url(); ?>logout" class="logout">
+                                                    <a href="<?php #echo base_url(); ?>logout" class="logout">
                                                         <i class="icon-logout"></i>
-                                                        <?php echo trans("logout"); ?>
+                                                        <?php #echo trans("logout"); ?>
                                                     </a>
                                                 </li>
                                             </ul>
                                         </li>
 
-                                        <?php if (is_multi_vendor_active()): ?>
-                                            <li class="nav-item"><a href="<?php echo lang_base_url(); ?>sell-now" class="btn btn-md btn-custom btn-sell-now"><?php echo trans("sell_now"); ?></a></li>
-                                        <?php endif; ?>
+                                        <?php #if (is_multi_vendor_active()): ?>
+                                            <li class="nav-item"><a href="<?php #echo lang_base_url(); ?>sell-now" class="btn btn-md btn-custom btn-sell-now"><?php #echo trans("sell_now"); ?></a></li>
+                                        <?php #endif; ?>
 
                                     <?php #else: ?>
                                         <li class="nav-item"><a href="javascript:void(0)" data-toggle="modal" data-target="#loginModal"><?php #echo trans("login"); ?></a></li>

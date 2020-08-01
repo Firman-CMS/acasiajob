@@ -434,6 +434,19 @@ if (!function_exists('get_favicon')) {
     }
 }
 
+//get get_logo_footer
+if (!function_exists('get_logo_footer')) {
+    function get_logo_footer($settings)
+    {
+        if (!empty($settings)) {
+            if (!empty($settings->logo_email) && file_exists(FCPATH . $settings->logo_email)) {
+                return base_url() . $settings->logo_email;
+            }
+        }
+        return base_url() . "assets/img/faviconAcasia.jpg";
+    }
+}
+
 //get page title
 if (!function_exists('get_page_title')) {
     function get_page_title($page)

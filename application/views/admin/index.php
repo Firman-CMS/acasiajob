@@ -6,12 +6,12 @@
         <div class="small-box admin-small-box bg-success">
             <div class="inner">
                 <h3 class="increase-count"><?php echo $job_count; ?></h3>
-                <a href="<?php echo admin_url(); ?>orders">
+                <a href="<?php echo admin_url(); ?>list-job-vacancy">
                     <p>Lowongan Kerja</p>
                 </a>
             </div>
             <div class="icon">
-                <a href="#">
+                <a href="<?php echo admin_url(); ?>list-job-vacancy">
                     <i class="fa fa-list-alt"></i>
                 </a>
             </div>
@@ -23,12 +23,12 @@
         <div class="small-box admin-small-box bg-purple">
             <div class="inner">
                 <h3 class="increase-count"><?php echo $company_count; ?></h3>
-                <a href="<?php echo admin_url(); ?>products">
+                <a href="<?php echo admin_url(); ?>list-company">
                     <p>Perusahaan</p>
                 </a>
             </div>
             <div class="icon">
-                <a href="<?php echo admin_url(); ?>products">
+                <a href="<?php echo admin_url(); ?>list-company">
                     <i class="fa fa-shopping-basket"></i>
                 </a>
             </div>
@@ -56,12 +56,12 @@
         <div class="small-box admin-small-box bg-warning">
             <div class="inner">
                 <h3 class="increase-count"><?php echo $user_count; ?></h3>
-                <a href="<?php echo admin_url(); ?>members">
+                <a href="#">
                     <p><?php echo trans("members"); ?></p>
                 </a>
             </div>
             <div class="icon">
-                <a href="<?php echo admin_url(); ?>members">
+                <a href="#">
                     <i class="fa fa-users"></i>
                 </a>
             </div>
@@ -181,10 +181,10 @@
 
                         <?php foreach ($latest_members as $item) : ?>
                             <li>
-                                <a href="<?php echo base_url(); ?>profile/<?php echo $item->slug; ?>">
+                                <a href="#">
                                     <img src="<?php echo get_user_avatar($item); ?>" alt="user" class="img-responsive">
                                 </a>
-                                <a href="<?php echo base_url(); ?>profile/<?php echo $item->slug; ?>" class="users-list-name"><?php echo html_escape($item->username); ?></a>
+                                <a href="#" class="users-list-name"><?php echo html_escape($item->username); ?></a>
                                 <span class="users-list-date"><?php echo time_ago($item->created_at); ?></span>
                             </li>
 
@@ -194,7 +194,7 @@
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer text-center">
-                    <a href="<?php echo admin_url(); ?>members" class="btn btn-sm btn-default btn-flat pull-right"><?php echo trans("view_all"); ?></a>
+                    <a href="#" class="btn btn-sm btn-default btn-flat pull-right"><?php echo trans("view_all"); ?></a>
                 </div>
                 <!-- /.box-footer -->
             </div>

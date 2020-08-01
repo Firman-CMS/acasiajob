@@ -223,6 +223,7 @@
                         <!-- <li><a href="<?php #echo admin_url(); ?>location-settings"> <?php #echo trans("location_settings"); ?></a></li> -->
                     </ul>
                 </li>
+                <?php /*
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-shopping-cart"></i>
@@ -230,17 +231,21 @@
                         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="<?php echo admin_url(); ?>orders"> <?php echo trans("orders"); ?></a></li>
-                        <li><a href="<?php echo admin_url(); ?>transactions"> <?php echo trans("transactions"); ?></a></li>
+                        <li><a href="<?php echo admin_url(); ?>orders"> <?php #echo trans("orders"); ?></a></li>
+                        <li><a href="<?php echo admin_url(); ?>transactions"> <?php #echo trans("transactions"); ?></a></li>
                         <li><a href="<?php echo admin_url(); ?>order-bank-transfers"> <?php echo trans("bank_transfer_notifications"); ?></a></li>
                     </ul>
                 </li>
+                ?>
+                <?php /*
                 <li>
                     <a href="<?php echo admin_url(); ?>digital-sales">
                         <i class="fa fa-shopping-bag"></i>
                         <span><?php echo trans("digital_sales"); ?></span>
                     </a>
                 </li>
+                */?>
+                <?php /*
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-shopping-basket angle-left" aria-hidden="true"></i>
@@ -256,6 +261,8 @@
                         <li><a href="<?php echo admin_url(); ?>deleted-products"> <?php echo trans("deleted_products"); ?></a></li>
                     </ul>
                 </li>
+                */?>
+                <?php /* 
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-dollar" aria-hidden="true"></i>
@@ -280,6 +287,7 @@
                         <li><a href="<?php echo admin_url(); ?>custom-fields"> <?php echo trans("custom_fields"); ?></a></li>
                     </ul>
                 </li>
+
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-money" aria-hidden="true"></i>
@@ -315,6 +323,7 @@
                         <li><a href="<?php echo admin_url(); ?>slider-items"> <?php echo trans("slider_items"); ?></a></li>
                     </ul>
                 </li>
+                */?>
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-file"></i>
@@ -326,6 +335,7 @@
                         <li><a href="<?php echo admin_url(); ?>pages"> <?php echo trans("pages"); ?></a></li>
                     </ul>
                 </li>
+                <?php /*
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-file"></i>
@@ -387,11 +397,13 @@
                         <span><?php echo trans("cache_system"); ?></span>
                     </a>
                 </li>
+                */?>
                 <li>
                     <a href="<?php echo admin_url(); ?>seo-tools">
                         <i class="fa fa-wrench"></i> <span><?php echo trans("seo_tools"); ?></span>
                     </a>
                 </li>
+                <?php /*
                 <li>
                     <a href="<?php echo admin_url(); ?>ad-spaces">
                         <i class="fa fa-dollar"></i> <span><?php echo trans("ad_spaces"); ?></span>
@@ -409,7 +421,9 @@
                         <span><?php echo trans("preferences"); ?></span>
                     </a>
                 </li>
+                */?>
                 <li class="header text-uppercase"><?php echo trans("settings"); ?></li>
+                <?php /*
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-cogs"></i>
@@ -438,21 +452,26 @@
                         <i class="fa fa-language"></i> <span><?php echo trans("language_settings"); ?></span>
                     </a>
                 </li>
+                */?>
+                <?php /*
                 <li>
                     <a href="<?php echo admin_url(); ?>email-settings">
                         <i class="fa fa-cog"></i> <span><?php echo trans("email_settings"); ?></span>
                     </a>
                 </li>
+                */?>
                 <li>
                     <a href="<?php echo admin_url(); ?>visual-settings">
                         <i class="fa fa-paint-brush"></i> <span><?php echo trans("visual_settings"); ?></span>
                     </a>
                 </li>
+                <?php /*
                 <li>
                     <a href="<?php echo admin_url(); ?>system-settings">
                         <i class="fa fa-cogs"></i> <span><?php echo trans("system_settings"); ?></span>
                     </a>
                 </li>
+                */?>
                 <li>
                     <a href="<?php echo admin_url(); ?>settings">
                         <i class="fa fa-cogs"></i> <span><?php echo trans("general_settings"); ?></span>

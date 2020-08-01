@@ -32,7 +32,7 @@ Pusatnya jual beli produk pertanian terbesar di indonesia.
                         <div class="col-12 col-md-3 footer-widget">
                             <div class="row-custom">
                                 <div class="footer-logo">
-                                    <a href="<?php echo lang_base_url(); ?>"><img alt="arenatani digital indonesia" srcset="https://arenatani.com//assets/img/arenatani_header.png" width="124"></a>
+                                    <a href="<?php echo lang_base_url(); ?>"><img alt="<?php echo html_escape($settings->site_title); ?>" srcset="<?php echo get_logo_footer($general_settings); ?>" width="170"></a>
                                 </div>
                             </div>
                             <div class="row-custom">
@@ -49,11 +49,11 @@ Pusatnya jual beli produk pertanian terbesar di indonesia.
                                 <div class="row-custom">
                                     <ul>
                                         <li><a href="<?php echo lang_base_url(); ?>"><?php echo trans("home"); ?></a></li>
-                                        <li><a href="<?php echo lang_base_url(); ?>blog"><?php echo trans("blog"); ?></a></li>
+                                        <!-- <li><a href="<?php #echo lang_base_url(); ?>blog"><?php #echo trans("blog"); ?></a></li> -->
                                         <li><a href="<?php echo lang_base_url(); ?>contact"><?php echo trans("contact"); ?></a></li>
-                                        <?php foreach ($footer_quick_links as $item): ?>
-                                            <li><a href="<?php echo lang_base_url() . $item->slug; ?>"><?php echo html_escape($item->title); ?></a></li>
-                                        <?php endforeach; ?>
+                                        <?php #foreach ($footer_quick_links as $item): ?>
+                                            <!-- <li><a href="<?php #echo lang_base_url() . $item->slug; ?>"><?php #echo html_escape($item->title); ?></a></li> -->
+                                        <?php #endforeach; ?>
                                     </ul>
                                 </div>
                             </div>
