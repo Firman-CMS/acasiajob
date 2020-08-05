@@ -245,6 +245,23 @@ class Upload_model extends CI_Model
 		return null;
 	}
 
+	//cv upload
+	public function cv_upload($datas)
+	{
+		$config['upload_path'] = './uploads/cv/';
+		$config['allowed_types'] = 'doc|docx|pdf';
+		$config['file_name'] = 'cv-'.$datas['email'].'-'. uniqid();
+		$this->load->library('upload', $config);
+
+		if ($this->upload->do_upload($datas['file_name'])) {
+			$data = array('upload_data' => $this->upload->data());
+			if (isset($data['upload_data']['full_path'])) {
+				return 'uploads/cv/' . $data['upload_data']['file_name'];
+			}
+		}
+		return null;
+	}
+
 	//favicon image upload
 	public function favicon_upload($file_name)
 	{
