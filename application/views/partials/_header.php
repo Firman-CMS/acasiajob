@@ -320,6 +320,7 @@ if ($language->id == $site_lang->id):?>
                    
                 <div class="top-search-bar mobile-search-form">
     <?php echo form_open(lang_base_url() . 'search', ['id' => 'form_validate_search_mobile', 'method' => 'get']); ?>
+        <?php /*
     <div class="left">
         <div class="dropdown search-select">
             <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
@@ -340,6 +341,7 @@ if ($language->id == $site_lang->id):?>
             <input type="hidden" class="search_type_input" name="search_type" value="product">
         <?php endif; ?>
     </div>
+        */?>
     <div class="right">
         <input type="text" name="search" maxlength="300" pattern=".*\S+.*" class="form-control input-search" value="<?php echo (!empty($filter_search)) ? $filter_search : ''; ?>" placeholder="<?php echo trans("search"); ?>" required>
         <button class="btn btn-default btn-search"><i class="icon-search"></i></button>

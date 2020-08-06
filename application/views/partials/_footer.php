@@ -9,15 +9,18 @@ if ($this->agent->is_mobile()):?>
 <div class="footer-content">
 <div class="footer-content__heading">
 
-<img alt="arenatani digital indonesia" srcset="https://arenatani.com//assets/img/arenatani_header.png" width="124">
+<img alt="<?php echo html_escape($settings->site_title); ?>" srcset="<?php echo get_logo_footer($general_settings); ?>" width="124">
 </div>
-Pusatnya jual beli produk pertanian terbesar di indonesia.
-<footer id="site-footer" role="footer" style="background:none;box-shadow:none;margin-bottom:60px;"> <nav> <a href="<?php echo lang_base_url(); ?>blog"><?php echo trans("blog"); ?></a> &#8226; <a href="<?php echo lang_base_url(); ?>contact"><?php echo trans("contact"); ?></a>  &#8226; <?php foreach ($footer_quick_links as $item): ?>
+<?php echo html_escape($settings->site_title); ?>
+<footer id="site-footer" role="footer" style="background:none;box-shadow:none;margin-bottom:60px;">
+    <nav> 
+    <!-- <a href="<?php #echo lang_base_url(); ?>blog"><?php #echo trans("blog"); ?></a>  -->
+    <a href="<?php echo lang_base_url(); ?>contact"><?php echo trans("contact"); ?>
+    </a>  &#8226; <?php foreach ($footer_quick_links as $item): ?>
 <li><a href="<?php echo lang_base_url() . $item->slug; ?>"><?php echo html_escape($item->title); ?></a></li>
           <?php endforeach; ?> <?php foreach ($footer_information_links as $item): ?>
    <a href="<?php echo lang_base_url() . $item->slug; ?>"><?php echo html_escape($item->title); ?></a> &#8226;
- 
-   <?php endforeach; ?></nav>  <a href="https://arenatani.com/assets/arenabaru.apk"><b>Download aplikasi arenatani sekarang!</b></a><hr> 2019 - 2020 © PT.Nugros Multimedia Indonesia<br></footer>
+   <?php endforeach; ?></nav>  <a href="#"><b>Nantikan aplikasi Jobshunter!</b></a><hr> <?php echo html_escape($settings->copyright); ?><br></footer>
 <br>
 <br>
 </div>
