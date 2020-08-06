@@ -22,6 +22,30 @@ class Aj_auth_model extends CI_Model
         return $query->row();
     }
 
+    public function login($post)
+    {
+        $this->load->library('bcrypt');
+
+        $user = $this->get_user_by_email($post['email']);
+        if ($user) {
+            if (!$this->bcrypt->check_password($post['password'], $user->password)) {
+                return false;
+            }
+            if ($user->status != 1) {
+                return false;
+            }
+            
+            $dataInsert = ['device_id' => $post['device_id']];
+        	if (!$this->insert_data($dataInsert, $user->id)){
+        		return false;
+        	}
+
+        	return true;
+        }else{
+        	return false;
+        }
+    }
+
     public function register($value='')
     {
     	$this->load->library('bcrypt');
@@ -52,6 +76,16 @@ class Aj_auth_model extends CI_Model
         $this->db->where('id', $id);
         $query = $this->db->get('user');
         return $query->row();
+    }
+
+    public function insert_data($data, $userId)
+    {
+        $this->db->where('id',$userId);
+        $insert = $this->db->update('user',$data);
+        if (!$insert){
+            return false;
+        }
+        return true;
     }
 
 	public function add_category()
