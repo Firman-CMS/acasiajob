@@ -73,6 +73,9 @@ class Aj_job_model extends CI_Model
     {
     	$id = $this->input->post('id');
     	$data = $this->input->post();
+    	if (!$data['city_id']) {
+    		$data['city_id'] = null;
+    	}
     	$data['from'] = date("Y-m-d", strtotime($data['from']));
     	$data['to'] = date("Y-m-d", strtotime($data['to']));
     	$this->db->where('id', $id);
@@ -124,15 +127,6 @@ class Aj_job_model extends CI_Model
         $query = $this->db->get('company');
         return $query->result();
     }
-    // public function delete_selected_id($id)
-    // {
-    // 	$data = array(
-    //         'is_deleted' => 1,
-    //     );
-    //     $this->db->where('id', $id);
-    //     return $this->db->update('job_position', $data);
-    // }
-
 
     public function get_company_list()
     {
@@ -209,5 +203,118 @@ class Aj_job_model extends CI_Model
         }
         
         return $list;
+    }
+
+    public function get_paginated_filtered_job($per_page, $offset, $data)
+    {
+    	$today = date('Y-m-d');
+        $this->filter_job_list($data);
+        $this->db->limit($per_page, $offset);
+        $this->db->where('job_vacancy.is_deleted', 0);
+    	$this->db->where('job_vacancy.status', 1);
+    	$this->db->where('job_vacancy.from <=', $today);
+    	$this->db->where('job_vacancy.to >=', $today);
+    	$this->db->order_by('job_vacancy.created_at', 'DESC');
+        $query = $this->db->get('job_vacancy');
+        // print_r($this->db->last_query());
+        return $query->result();
+    }
+
+    public function filter_job_list($data)
+    {
+    	$this->db->select( 'job_vacancy.*,
+			category_job.name category_name,
+			job_position.name position_name,
+			cities.name city_name,
+			states.name state_name,
+			countries.name country_name,
+			company.company_name company_name,
+			company.picture company_logo'
+		);
+
+    	if ($data['search']) {
+    		$search = remove_special_characters(trim($data['search']));
+    		$this->db->like('job_vacancy.title', $search);
+            $this->db->or_like('job_vacancy.job_requirement', $search);
+            $this->db->or_like('job_vacancy.job_responsibilities', $search);
+            $this->db->or_like('company.company_name', $search);
+    	}
+    	if ($data['location']) {
+    		$location = $this->mappingStateCity($data['location']);
+    		if ($location['list_state']) {
+    			$this->db->where_in('job_vacancy.state_id', $location['list_state']);
+    		}
+    		if ($location['list_city']) {
+    			$this->db->where_in('job_vacancy.city_id', $location['list_city']);
+    		}
+    	}
+    	if (isset($data['category']) && $data['category']) {
+    		$this->db->where('job_vacancy.category_id', $data['category']);
+    	}
+
+    	$this->JoinTable($data);
+    }
+
+    public function JoinTable($data)
+    {
+    	if (isset($data['area'])) {
+			if ($data['area'] == 1) {
+				$this->db->where('job_vacancy.country_id', '102');
+			} else {
+				$this->db->where('job_vacancy.country_id <>', '102');
+			}
+    	}
+
+    	$this->db->join('category_job','category_job.id = job_vacancy.category_id')
+    			->join('job_position','job_position.id = job_vacancy.job_position_id')
+    			->join('company','company.id = job_vacancy.company_id')
+    			->join('countries','countries.id = job_vacancy.country_id')
+    			->join('states','states.id = job_vacancy.state_id', 'left')
+    			->join('cities','cities.id = job_vacancy.city_id', 'left');
+    }
+
+    public function mappingStateCity($location)
+    {
+    	$location = explode(",", $location);
+    	$state = [];
+    	$city = [];
+    	foreach ($location as $value) {
+    		if ($value[0] == 'p') { #for state/provinsi
+    			$data = explode("p",$value);
+    			array_push($state, $data[1]);
+    		} else {
+    			array_push($city, $value);
+    		}
+    	}
+
+    	$data = [
+    		'list_state' => $state,
+    		'list_city' => $city
+    	];
+    	
+    	return $data;
+    }
+    
+    public function get_filter_job($data)
+    {
+    	$today = date('Y-m-d');
+        $this->queryFilter($data);
+        $this->db->where('job_vacancy.is_deleted', 0);
+    	$this->db->where('job_vacancy.status', 1);
+    	$this->db->where('job_vacancy.from <=', $today);
+    	$this->db->where('job_vacancy.to >=', $today);
+        $query = $this->db->get('job_vacancy');
+        return $query->result();
+    }
+
+    public function queryFilter($data)
+    {
+    	$this->db->select( 'job_vacancy.*, 
+    		category_job.name category_name,
+			job_position.name position_name,
+			cities.name city_name,
+			states.name state_name'
+    	);
+    	$this->JoinTable($data);
     }
 }
