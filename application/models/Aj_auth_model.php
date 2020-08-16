@@ -52,21 +52,35 @@ class Aj_auth_model extends CI_Model
         $data = $this->input->post();
         $data['password'] = $this->bcrypt->hash_password($data['password']);
 
-        $this->load->model('upload_model');
-        $dataUpload = [
-        	'file_name' => 'cv',
-        	'email' => str_replace(".", "_", $data['email']),
-        ];
-        $file_path = $this->upload_model->cv_upload($dataUpload);
-        if (!empty($file_path)) {
-            $data["cv"] = $file_path;
-        }
+        // $this->load->model('upload_model');
+        // $dataUpload = [
+        // 	'file_name' => 'cv',
+        // 	'email' => str_replace(".", "_", $data['email']),
+        // ];
+        // $file_path = $this->upload_model->cv_upload($dataUpload);
+        // if (!empty($file_path)) {
+        //     $data["cv"] = $file_path;
+        // }
 
         if ($this->db->insert('user', $data)) {
             $last_id = $this->db->insert_id();
             return $this->get_user_by_id($last_id);
         } else {
             return false;
+        }
+    }
+
+    public function uploadCv($userId)
+    {
+        $this->load->model('upload_model');
+        $dataUser = $this->get_user_by_id($userId);
+        $dataUpload = [
+         'file_name' => 'cv',
+         'email' => str_replace(".", "_", $dataUser->email),
+        ];
+        $file_path = $this->upload_model->cv_upload($dataUpload);
+        if (!empty($file_path)) {
+            $data["cv"] = $file_path;
         }
     }
 

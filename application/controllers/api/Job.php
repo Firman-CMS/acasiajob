@@ -10,6 +10,8 @@ class Job extends REST_Controller{
 		$this->return = array('status' => false, 'message' => 'Something wrong');
 
 		$this->load->model("aj_job_model");
+		$this->load->helper('api_helper');
+        // $this->load->helper('custom_helper');
 		$this->job_per_page = 8;
 	}
 
@@ -32,6 +34,7 @@ class Job extends REST_Controller{
 			foreach ($list as $jobList) {
 				$jobList->company_logo = getPicturePath($jobList->company_logo);
 				$jobList->location = $jobList->city_name ?: $jobList->state_name;
+				$jobList->creates = timeAgo($jobList->created_at);
 				unset($jobList->city_name);
 				unset($jobList->state_name);
 				$jobData[] = $jobList;
@@ -77,6 +80,28 @@ class Job extends REST_Controller{
 		$this->return['data'] = $datas;
 
 		$this->response($this->return);
+	}
+
+	public function jobdetail_get()
+	{
+		$jobId = $this->get('job_id');
+		$userId = $this->get('user_id');
+		$data = $this->aj_job_model->getDetailJob($jobId);
+		if ($data) {
+			$isApplied = $this->aj_job_model->getUserAppliedJob($jobId, $userId);
+			$data->is_applied = $isApplied ? 1 : 0;
+			$data->company_logo = getPicturePath($data->company_logo);
+			$data->location = $data->city_name ?: $data->state_name;
+			$data->creates = timeAgo($data->created_at);
+			unset($data->city_name);
+			unset($data->state_name);
+
+			$this->return['status'] = true;
+			$this->return['message'] = "Success";
+			$this->return['data'] = $data;
+
+			$this->response($this->return);
+		}
 	}
 }
 ?>

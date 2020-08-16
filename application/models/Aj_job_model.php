@@ -255,7 +255,7 @@ class Aj_job_model extends CI_Model
     	$this->JoinTable($data);
     }
 
-    public function JoinTable($data)
+    public function JoinTable($data = null)
     {
     	if (isset($data['area'])) {
 			if ($data['area'] == 1) {
@@ -316,5 +316,43 @@ class Aj_job_model extends CI_Model
 			states.name state_name'
     	);
     	$this->JoinTable($data);
+    }
+
+    public function getDetailJob($jobId)
+    {
+    	$today = date('Y-m-d');
+        $this->queryFilterDetail();
+        $this->db->where('job_vacancy.is_deleted', 0);
+    	$this->db->where('job_vacancy.status', 1);
+    	$this->db->where('job_vacancy.from <=', $today);
+    	$this->db->where('job_vacancy.to >=', $today);
+    	$this->db->where('job_vacancy.id', $jobId);
+        $query = $this->db->get('job_vacancy');
+        print_r($this->db->last_query());
+        return $query->row();
+    }
+
+    public function queryFilterDetail()
+    {
+    	$this->db->select( 'job_vacancy.*, 
+    		company.company_name,
+    		company.picture company_logo,
+    		company.address company_address,
+    		company.description company_overview,
+    		category_job.name category_name,
+			job_position.name position_name,
+			cities.name city_name,
+			states.name state_name'
+    	);
+    	$this->JoinTable(null);
+    }
+
+
+    public function getUserAppliedJob($jobId, $userId)
+    {
+    	$this->db->where('job_id', $jobId);
+    	$this->db->where('user_id', $userId);
+    	$query = $this->db->get('job_applied');
+    	return $query->row();
     }
 }
