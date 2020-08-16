@@ -16,15 +16,15 @@
                 
 
                 <div class="form-group">
-                    <label><?php echo trans("category_name"); ?></label>
-                    <input type="text" class="form-control" name="name" placeholder="<?php echo trans("category_name"); ?>"
+                    <label><?php echo trans("job_position"); ?></label>
+                    <input type="text" class="form-control" name="name" placeholder="<?php echo trans("job_position"); ?>"
                            value="<?php echo old('name'); ?>" maxlength="200" <?php echo ($rtl == true) ? 'dir="rtl"' : ''; ?> required>
                 </div>
 
                 <div class="form-group">
                     <div class="row">
                         <div class="col-sm-4 col-xs-12">
-                            <label><?php echo trans('show_category'); ?></label>
+                            <label><?php echo trans('show'); ?></label>
                         </div>
                         <div class="col-sm-4 col-xs-12 col-option">
                             <input type="radio" name="status" value="1" id="show_image_on_navigation_1" class="square-purple" checked>
@@ -68,8 +68,8 @@
                                    aria-describedby="example1_info">
                                 <thead>
                                 <tr role="row">
-                                    <th><?php echo trans('category_name'); ?></th>
-                                    <th><?php echo trans('show_category'); ?></th>
+                                    <th><?php echo trans('job_position'); ?></th>
+                                    <th><?php echo trans('show'); ?></th>
                                     <th class="th-options"><?php echo trans('options'); ?></th>
                                 </tr>
                                 </thead>
