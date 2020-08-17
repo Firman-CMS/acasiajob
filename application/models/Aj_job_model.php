@@ -328,7 +328,6 @@ class Aj_job_model extends CI_Model
     	$this->db->where('job_vacancy.to >=', $today);
     	$this->db->where('job_vacancy.id', $jobId);
         $query = $this->db->get('job_vacancy');
-        print_r($this->db->last_query());
         return $query->row();
     }
 

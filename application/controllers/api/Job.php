@@ -100,8 +100,8 @@ class Job extends REST_Controller{
 			$this->return['message'] = "Success";
 			$this->return['data'] = $data;
 
-			$this->response($this->return);
 		}
+		$this->response($this->return);
 	}
 }
 ?>
