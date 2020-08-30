@@ -10,8 +10,8 @@ class Job extends REST_Controller{
 		$this->return = array('status' => false, 'message' => 'Something wrong');
 
 		$this->load->model("aj_job_model");
+		$this->load->model("aj_user_model");
 		$this->load->helper('api_helper');
-        // $this->load->helper('custom_helper');
 		$this->job_per_page = 8;
 	}
 
@@ -100,8 +100,65 @@ class Job extends REST_Controller{
 			$this->return['message'] = "Success";
 			$this->return['data'] = $data;
 
+		}
+		$this->response($this->return);
+	}
+
+	public function appliedjob_post()
+	{
+		$data = [
+			'job_id' => $this->post('job_id'),
+			'user_id' => $this->post('user_id')
+		];
+
+		$datas = $this->aj_user_model->getUserData('cv', $data['user_id']);
+		if (!$datas->cv) {
+			$this->return['message'] = "Upload cv anda terlebih dahulu";
+			return $this->response($this->return);
+		}
+
+		$isApplied = $this->aj_job_model->getUserAppliedJob($data['job_id'], $data['user_id']);
+		if ($isApplied) {
+			$this->return['message'] = "Anda sudah melamar pekerjaan ini";
+			return $this->response($this->return);
+		}
+
+		$applyJob = $this->aj_job_model->applyJob($data);
+		if ($applyJob) {
+			$this->return['status'] = true;
+			$this->return['message'] = "Success";
 			$this->response($this->return);
 		}
+	}
+
+	public function appliedJob_get()
+	{
+		$userId = $this->get('user_id');
+
+		$dataJob = $this->aj_job_model->getAppliedJob($userId);
+		$datas = [];
+		foreach ($dataJob as $value) {
+			$data = $this->aj_job_model->getDetailJob($value->job_id);
+			$isApplied = $this->aj_job_model->getUserAppliedJob($value->job_id, $userId);
+			$data->is_applied = $isApplied ? 1 : 0;
+			$data->company_logo = getPicturePath($data->company_logo);
+			$data->location = $data->city_name ?: $data->state_name;
+			$data->creates = timeAgo($data->created_at);
+			unset($data->city_name);
+			unset($data->state_name);
+
+			$datas[] = $data;
+		}
+
+		if ($datas) {
+			$this->return['status'] = true;
+			$this->return['message'] = "Success";
+			$this->return['data'] = $datas;
+		} else {
+			$this->return['message'] = "Empty Result";
+		}
+		
+		$this->response($this->return);
 	}
 }
 ?>

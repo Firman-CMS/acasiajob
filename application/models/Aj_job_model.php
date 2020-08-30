@@ -328,7 +328,6 @@ class Aj_job_model extends CI_Model
     	$this->db->where('job_vacancy.to >=', $today);
     	$this->db->where('job_vacancy.id', $jobId);
         $query = $this->db->get('job_vacancy');
-        print_r($this->db->last_query());
         return $query->row();
     }
 
@@ -347,12 +346,25 @@ class Aj_job_model extends CI_Model
     	$this->JoinTable(null);
     }
 
-
     public function getUserAppliedJob($jobId, $userId)
     {
     	$this->db->where('job_id', $jobId);
     	$this->db->where('user_id', $userId);
     	$query = $this->db->get('job_applied');
     	return $query->row();
+    }
+
+    public function applyJob($data)
+    {
+        $this->db->insert('job_applied', $data);
+        $last_id = $this->db->insert_id();
+        return $last_id;
+    }
+
+    public function getAppliedJob($userId)
+    {
+        $this->db->where('user_id', $userId);
+        $query = $this->db->get('job_applied');
+        return $query->result();
     }
 }
