@@ -239,7 +239,7 @@ $route[$r_admin . '/edit-jobposition/(:num)'] = 'aj_position_controller/edit/$1'
 $route[$r_admin . '/update-blog-category/(:num)'] = 'blog_controller/update_category/$1';
 /*comment routes*/
 $route[$r_admin . '/new-job-vacancy'] = 'aj_job_controller/job_vacancy';
-$route[$r_admin . '/list-job-vacancy'] = 'aj_job_controller/list';
+$route[$r_admin . '/list-job-vacancy'] = 'aj_job_controller/list_job';
 $route[$r_admin . '/detail-job/(:num)'] = 'aj_job_controller/detail_job/$1';
 $route[$r_admin . '/product-comments'] = 'product_admin_controller/comments';
 $route[$r_admin . '/blog-comments'] = 'blog_controller/comments';

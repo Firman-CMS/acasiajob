@@ -46,7 +46,7 @@ class Aj_job_controller extends Admin_Core_Controller
         }
     }
 
-    public function list()
+    public function list_job()
     {
         $data['title'] = trans("list_job_vacancy");
         $data['form_action'] = admin_url() . "list-job-vacancy";
