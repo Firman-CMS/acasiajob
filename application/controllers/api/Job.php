@@ -89,7 +89,9 @@ class Job extends REST_Controller{
 		$data = $this->aj_job_model->getDetailJob($jobId);
 		if ($data) {
 			$isApplied = $this->aj_job_model->getUserAppliedJob($jobId, $userId);
+			$isSaved = $this->aj_job_model->getUserSavedJob($jobId, $userId);
 			$data->is_applied = $isApplied ? 1 : 0;
+			$data->is_saved = $isSaved ? 1 : 0;
 			$data->company_logo = getPicturePath($data->company_logo);
 			$data->location = $data->city_name ?: $data->state_name;
 			$data->creates = timeAgo($data->created_at);
@@ -127,8 +129,8 @@ class Job extends REST_Controller{
 		if ($applyJob) {
 			$this->return['status'] = true;
 			$this->return['message'] = "Success";
-			$this->response($this->return);
 		}
+		$this->response($this->return);
 	}
 
 	public function appliedJob_get()
@@ -139,8 +141,56 @@ class Job extends REST_Controller{
 		$datas = [];
 		foreach ($dataJob as $value) {
 			$data = $this->aj_job_model->getDetailJob($value->job_id);
-			$isApplied = $this->aj_job_model->getUserAppliedJob($value->job_id, $userId);
-			$data->is_applied = $isApplied ? 1 : 0;
+			$data->company_logo = getPicturePath($data->company_logo);
+			$data->location = $data->city_name ?: $data->state_name;
+			$data->creates = timeAgo($data->created_at);
+			unset($data->city_name);
+			unset($data->state_name);
+
+			$datas[] = $data;
+		}
+
+		if ($datas) {
+			$this->return['status'] = true;
+			$this->return['message'] = "Success";
+			$this->return['data'] = $datas;
+		} else {
+			$this->return['message'] = "Empty Result";
+		}
+		
+		$this->response($this->return);
+	}
+
+	public function savedjob_post()
+	{
+		$data = [
+			'job_id' => $this->post('job_id'),
+			'user_id' => $this->post('user_id')
+		];
+
+		$isSaved = $this->aj_job_model->getUserSavedJob($data['job_id'], $data['user_id']);
+		if ($isSaved) {
+			$this->return['message'] = "Anda sudah menyimpan pekerjaan ini";
+			return $this->response($this->return);
+		}
+
+		$saveJob = $this->aj_job_model->saveJob($data);
+		if ($saveJob) {
+			$this->return['status'] = true;
+			$this->return['message'] = "Success";
+		}
+		
+		$this->response($this->return);
+	}
+
+	public function savedJob_get()
+	{
+		$userId = $this->get('user_id');
+
+		$dataJob = $this->aj_job_model->getSavedJob($userId);
+		$datas = [];
+		foreach ($dataJob as $value) {
+			$data = $this->aj_job_model->getDetailJob($value->job_id);
 			$data->company_logo = getPicturePath($data->company_logo);
 			$data->location = $data->city_name ?: $data->state_name;
 			$data->creates = timeAgo($data->created_at);

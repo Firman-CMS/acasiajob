@@ -364,7 +364,31 @@ class Aj_job_model extends CI_Model
     public function getAppliedJob($userId)
     {
         $this->db->where('user_id', $userId);
+        $this->db->order_by('created_at', 'DESC');
         $query = $this->db->get('job_applied');
+        return $query->result();
+    }
+
+    public function getUserSavedJob($jobId, $userId)
+    {
+        $this->db->where('job_id', $jobId);
+        $this->db->where('user_id', $userId);
+        $query = $this->db->get('job_saved');
+        return $query->row();
+    }
+
+    public function saveJob($data)
+    {
+        $this->db->insert('job_saved', $data);
+        $last_id = $this->db->insert_id();
+        return $last_id;
+    }
+
+    public function getSavedJob($userId)
+    {
+        $this->db->where('user_id', $userId);
+        $this->db->order_by('created_at', 'DESC');
+        $query = $this->db->get('job_saved');
         return $query->result();
     }
 }
