@@ -76,6 +76,100 @@ class Api_email_model extends CI_Model
         }
     }
 
+    public function send_email_reset_passwords($user_id)
+    {
+        $user_id = clean_number($user_id);
+        $user = $this->aj_user_model->userData($user_id);
+        if (!empty($user)) {
+            $token = $user->token;
+            //check token
+            if (empty($token)) {
+                $token = generate_token();
+                $data = array(
+                    'token' => $token
+                );
+                $this->db->where('id', $user->id);
+                $this->db->update('user', $data);
+            }
+
+            $data = array(
+                'subject' => trans("reset_password"),
+                'to' => $user->email,
+                'template_path' => "email/email_reset_password_api",
+                'token' => $token,
+                'general_settings' => $this->api_general_settings->getAll(),
+                'settings' => $this->settings_model->get_settings('2'),
+                'lang_base_url' => base_url()
+            );
+
+            $send = $this->send_emailer($data);
+
+            return $send;
+        }
+    }
+
+    public function send_emailer($data)
+    {
+        // date_default_timezone_set('Etc/UTC');
+        // require '../PHPMailerAutoload.php';
+        //Membuat instance PHPMailer baru
+        // $mail = new PHPMailer;
+        $mail = new PHPMailer(true);
+        //Memberi tahu PHPMailer untuk menggunakan SMTP
+        $mail->isSMTP();
+        //Mengaktifkan SMTP debugging
+        // 0 = off (digunakan untuk production)
+        // 1 = pesan client
+        // 2 = pesan client dan server
+        $mail->SMTPDebug = 0;
+        //HTML-friendly debug output
+        $mail->Debugoutput = 'html';
+        //hostname dari mail server
+        $mail->Host = 'smtp.gmail.com';
+        // gunakan
+        // $mail->Host = gethostbyname('smtp.gmail.com');
+        // jika jaringan Anda tidak mendukung SMTP melalui IPv6
+        //Atur SMTP port - 587 untuk dikonfirmasi TLS, a.k.a. RFC4409 SMTP submission
+        $mail->Port = 587;
+        // $mail->Port = 465;
+        //Set sistem enkripsi untuk menggunakan - ssl (deprecated) atau tls
+        $mail->SMTPSecure = 'tls';
+        //SMTP authentication
+        $mail->SMTPAuth = true;
+        //Username yang digunakan untuk SMTP authentication - gunakan email gmail
+        $mail->Username = "ptacasia57@gmail.com";
+        //Password yang digunakan untuk SMTP authentication
+        $mail->Password = "vpqtlolowcnakcin";
+        //Email pengirim
+        $mail->setFrom('ptacasia57@gmail.com', 'Jobshunter.co.id');
+        //Alamat email alternatif balasan
+        $mail->addReplyTo('ptacasia57@gmail.com', 'Jobshunter.co.id');
+        //Email tujuan
+        $mail->addAddress($data['to']);
+        //Subject email
+        // $mail->Subject = 'PHPMailer GMail SMTP test';
+        //Membaca isi pesan HTML dari file eksternal, mengkonversi gambar yang di embed,
+        //Mengubah HTML menjadi basic plain-text
+        // $mail->msgHTML(file_get_contents('contents.html'), dirname(__FILE__));
+        //Replace plain text body dengan cara manual
+        // $mail->AltBody = 'This is a plain-text message body';
+        $mail->isHTML(true);
+        $mail->Subject = $data['subject'];
+        $mail->Body = $this->load->view($data['template_path'], $data, TRUE, 'text/html');
+        //Attach file gambar
+        // $mail->addAttachment('images/phpmailer_mini.png');
+        //mengirim pesan, mengecek error
+        if (!$mail->send()) {
+            $datas['status'] = false;
+            $datas['message'] = $mail->ErrorInfo;
+        } else {
+            $datas['status'] = true;
+            $datas['message'] = 'success';
+        }
+
+        return $datas;
+    }
+
     public function send_email($data)
     {
         if ($this->api_general_settings->getValueOf('mail_library') == "swift") {

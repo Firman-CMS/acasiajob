@@ -7,7 +7,7 @@
     <title><?php echo html_escape($title); ?> - <?php echo html_escape($settings->site_title); ?></title>
     <meta name="description" content="<?php echo html_escape($description); ?>"/>
     <meta name="keywords" content="<?php echo html_escape($keywords); ?>"/>
-    <meta name="author" content="arenatani"/>
+    <meta name="author" content="<?php echo html_escape($title); ?>"/>
     <link rel="shortcut icon" type="image/png" href="<?php echo get_favicon($general_settings); ?>"/>
     <meta property="og:locale" content="id"/>
     <meta property="og:site_name" content="<?php echo html_escape($general_settings->application_name); ?>"/>
@@ -162,7 +162,7 @@ if ($language->id == $site_lang->id):?>
             <input type="hidden" class="search_type_input" name="search_type" value="product">
         <?php endif; ?>
                                         <div class="right" style="width:300px">
-                                            <input type="text" name="search" maxlength="300" pattern=".*\S+.*" id="input_search" class="form-control input-search" value="<?php echo (!empty($filter_search)) ? $filter_search : ''; ?>" placeholder="Mau cari apa hari ini ?" required autocomplete="off">
+                                            <input type="text" name="search" maxlength="300" pattern=".*\S+.*" id="input_search" class="form-control input-search" value="<?php echo (!empty($filter_search)) ? $filter_search : ''; ?>" placeholder="Cari kerja ? Dowload Jobshunter segera!" required autocomplete="off">
                                             <button class="btn btn-default btn-search"><i class="icon-search"></i></button>
                                             <!-- <div id="response_search_results" class="search-results-ajax"></div> -->
                                         </div>

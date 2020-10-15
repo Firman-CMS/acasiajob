@@ -372,7 +372,7 @@ class Auth_model extends CI_Model
         );
         //change password
         $this->db->where('id', $id);
-        return $this->db->update('users', $data);
+        return $this->db->update('user', $data);
     }
 
     //delete user
@@ -578,7 +578,7 @@ class Auth_model extends CI_Model
     {
         $token = remove_special_characters($token);
         $this->db->where('token', $token);
-        $query = $this->db->get('users');
+        $query = $this->db->get('user');
         return $query->row();
     }
 

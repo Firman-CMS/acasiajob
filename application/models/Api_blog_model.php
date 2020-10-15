@@ -80,4 +80,12 @@ class Api_blog_model extends CI_Model
 
     }
 
+    public function get_page_by_slug($slug)
+    {
+        $this->db->where('slug', $slug);
+        $this->db->where('visibility', 1);
+        $query = $this->db->get('pages');
+        return $query->row();
+    }
+
 }

@@ -31,6 +31,7 @@
                             <th><?php echo trans("salary"); ?></th>
                             <th><?php echo trans("date"); ?></th>
                             <th><?php echo trans("show"); ?></th>
+                            <th>Applied</th>
                             <th>Pilihan</th>
                         </tr>
                         </thead>
@@ -60,7 +61,29 @@
                                     }
                                 ?>
                                 <td><?php echo $status ?></td>
+                                <?php $totalAplied = $item->total_applied ?: 0 ?>
                                 <td width="10%">
+                                    <div class="dropdown">
+                                        <button class="btn bg-purple dropdown-toggle btn-select-option"
+                                                type="button"
+                                                data-toggle="dropdown"><?php echo $totalAplied; ?>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <?php if ($item->total_applied):?>
+                                            <ul class="dropdown-menu options-dropdown">
+                                                <li>
+                                                    <a href="<?php echo admin_url(); ?>dowload-cv/<?php echo html_escape($item->id); ?>"><i class="fa fa-download option-icon" target="_blank"></i>Download all CV</a>
+                                                </li>
+                                                <li>
+                                                    <a href="<?php echo admin_url(); ?>dowload-profile/<?php echo html_escape($item->id); ?>"><i class="fa fa-download option-icon" target="_blank"></i>Download all Profile</a>
+                                                </li>
+                                                <li>
+                                                    <a href="<?php echo admin_url(); ?>detail-applied-job/<?php echo html_escape($item->id); ?>" target="_blank"><i class="fa fa-external-link option-icon" ></i>Lihat Detail Pelamar</a>
+                                                </li>
+                                            </ul>
+                                        <?php endif;?>
+                                    </div>
+                                </td><td width="10%">
                                     <div class="dropdown">
                                         <button class="btn bg-purple dropdown-toggle btn-select-option"
                                                 type="button"

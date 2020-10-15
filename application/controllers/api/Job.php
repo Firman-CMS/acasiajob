@@ -11,6 +11,7 @@ class Job extends REST_Controller{
 
 		$this->load->model("aj_job_model");
 		$this->load->model("aj_user_model");
+		$this->load->model("aj_position_model");
 		$this->load->helper('api_helper');
 		$this->job_per_page = 8;
 	}
@@ -25,7 +26,8 @@ class Job extends REST_Controller{
     		'search' => $this->get('search'),
     		'category' => $this->get('category'),
     		'location' => $this->get('location'),
-    		'area' => $this->get('area')
+    		'area' => $this->get('area'),
+    		'salary' => $this->get('salary')
     	];
 
 		$list = $this->aj_job_model->get_paginated_filtered_job($perPage, $offset, $getData);
@@ -71,10 +73,9 @@ class Job extends REST_Controller{
     			'value' => $valueLocation,
     		];
     	}
-
-    	$datas['filter_category'] = array_unique($filterCategory, SORT_REGULAR);
-    	$datas['filter_location'] = array_unique($filterLocation, SORT_REGULAR);
-
+    	$datas['filter_category'] = array_values(array_unique($filterCategory, SORT_REGULAR));
+    	$datas['filter_location'] = array_values(array_unique($filterLocation, SORT_REGULAR));
+    	
     	$this->return['status'] = true;
 		$this->return['message'] = "Success";
 		$this->return['data'] = $datas;
@@ -208,6 +209,15 @@ class Job extends REST_Controller{
 			$this->return['message'] = "Empty Result";
 		}
 		
+		$this->response($this->return);
+	}
+
+	public function positionList_get()
+	{
+		$this->return['status'] = true;
+		$this->return['message'] = "Success";
+		$this->return['data'] = $this->aj_position_model->get_position_list();
+
 		$this->response($this->return);
 	}
 }

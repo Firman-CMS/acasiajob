@@ -48,24 +48,33 @@ class Aj_job_model extends CI_Model
     	$this->db->select('company.company_name');
     	$this->db->select('job_position.name');
     	$this->db->select("cities.name AS 'city_name'");
+        $this->db->select('t2.total_applied');
 
     	$this->filter_job();
 
     	$this->db->join('job_position', 'job_vacancy.job_position_id = job_position.id');
         $this->db->join('company', 'job_vacancy.company_id = company.id');
         $this->db->join('cities', 'job_vacancy.city_id = cities.id', 'left');
+        $this->db->join('(SELECT job_id, count(*) as total_applied 
+                    FROM job_applied
+                    JOIN `job_vacancy` ON `job_vacancy`.`id` = `job_applied`.`job_id`
+                    GROUP BY job_id)  t2','job_vacancy.id = t2.job_id', 'left');
     	$this->db->where('job_vacancy.is_deleted', 0);
         $this->db->order_by('job_vacancy.status', 'DESC');
-        $this->db->order_by('job_vacancy.id', 'ASC');
+        $this->db->order_by('job_vacancy.id', 'DESC');
         $query = $this->db->get('job_vacancy');
         return $query->result();
     }
 
     public function get_by_id($job_id)
     {
-        $this->db->where('id', $job_id);
+        $this->db->select('job_vacancy.*');
+        $this->db->select('company.company_name');
+        $this->db->where('job_vacancy.id', $job_id);
         $this->db->where('is_deleted', 0);
+        $this->db->join('company', 'job_vacancy.company_id = company.id');
         $query = $this->db->get('job_vacancy');
+        // print_r($this->db->last_query());
         return $query->row();
     }
 
@@ -234,23 +243,40 @@ class Aj_job_model extends CI_Model
 
     	if ($data['search']) {
     		$search = remove_special_characters(trim($data['search']));
-    		$this->db->like('job_vacancy.title', $search);
-            $this->db->or_like('job_vacancy.job_requirement', $search);
-            $this->db->or_like('job_vacancy.job_responsibilities', $search);
-            $this->db->or_like('company.company_name', $search);
+    		// $this->db->like('(job_vacancy.title', $search);
+      //       $this->db->or_like('job_vacancy.job_requirement', $search);
+      //       $this->db->or_like('job_vacancy.job_responsibilities', $search);
+      //       $this->db->or_like('company.company_name', $search));
+
+            $where  = "(`job_vacancy`.`title` LIKE '%$search%' OR ";
+            $where .= "`job_vacancy`.`job_requirement` LIKE '%$search%' OR ";
+            $where .= "`job_vacancy`.`job_responsibilities` LIKE '%$search%' OR ";
+            $where .= "`company`.`company_name` LIKE '%$search%' OR ";
+            $where .= "`job_position`.`name` LIKE '%$search%')";
+            $this->db->where($where);
     	}
     	if ($data['location']) {
     		$location = $this->mappingStateCity($data['location']);
-    		if ($location['list_state']) {
+            $state = $location['list_state'];
+            $city = $location['list_city'];
+            if ($state && $city) {
+                // $this->db->where_in('job_vacancy.state_id', $location['list_state']);
+                $wheres  = "(`job_vacancy`.`state_id` IN ($state) OR ";
+                $wheres .= "`job_vacancy`.`city_id` IN ($city))";
+                $this->db->where($wheres);
+            } elseif ($state) {
     			$this->db->where_in('job_vacancy.state_id', $location['list_state']);
-    		}
-    		if ($location['list_city']) {
+    		} elseif ($city) {
     			$this->db->where_in('job_vacancy.city_id', $location['list_city']);
     		}
     	}
-    	if (isset($data['category']) && $data['category']) {
+    	if ($data['category']) {
     		$this->db->where('job_vacancy.category_id', $data['category']);
     	}
+        if ($data['salary']) {
+            $this->db->where('job_vacancy.salary_min <=', $data['salary']);
+            $this->db->where('job_vacancy.salary >=', $data['salary']);
+        }
 
     	$this->JoinTable($data);
     }
@@ -279,7 +305,8 @@ class Aj_job_model extends CI_Model
     	$state = [];
     	$city = [];
     	foreach ($location as $value) {
-    		if ($value[0] == 'p') { #for state/provinsi
+            $value = str_replace(' ', '', $value);
+    		if (substr($value, 0, 1) == 'p') { #for state/provinsi
     			$data = explode("p",$value);
     			array_push($state, $data[1]);
     		} else {
@@ -288,8 +315,8 @@ class Aj_job_model extends CI_Model
     	}
 
     	$data = [
-    		'list_state' => $state,
-    		'list_city' => $city
+    		'list_state' => implode(",", $state),
+    		'list_city' => implode(",", $city)
     	];
     	
     	return $data;

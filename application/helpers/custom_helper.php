@@ -1870,4 +1870,55 @@ function getPicturePath($picturePath)
     return $logo;
 }
 
+function getCvPath($cvPath)
+{
+    if ($cvPath) {
+        $cv = base_url() . $cvPath;
+    } else {
+        $cv = '';
+    }
+
+    return $cv;
+}
+
+function downloadFile($cvPath, $folderName)
+{
+    $urlFile = base_url() . $cvPath;
+    $file_name = basename($urlFile);
+    $dateNow = date('dMy');
+    $file_dir = './download/'.$dateNow.'/'.$folderName.'/';
+    if (!is_dir($file_dir)) {
+        mkdir($file_dir, 0777, true);
+    }
+
+    $file_name = $file_dir.$file_name;
+    if(file_put_contents($file_name,file_get_contents($urlFile))) { 
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function createZip($value='')
+{
+    $zip = new ZipArchive;
+    if ($zip->open('test_dir.zip', ZipArchive::OVERWRITE) === TRUE)
+    {
+        if ($handle = opendir('demo_folder'))
+        {
+            // Add all files inside the directory
+            while (false !== ($entry = readdir($handle)))
+            {
+                if ($entry != "." && $entry != ".." && !is_dir('demo_folder/' . $entry))
+                {
+                    $zip->addFile('demo_folder/' . $entry);
+                }
+            }
+            closedir($handle);
+        }
+
+        $zip->close();
+    }
+}
+
 ?>

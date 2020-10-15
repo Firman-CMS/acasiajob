@@ -590,4 +590,18 @@ $this->load->view('partials/_menu_bawah');
         $this->load->view('errors/error_404');
         $this->load->view('partials/_footer');
     }
+
+    public function home()
+    {
+        // $data['title'] = "Coming soon";
+        // $data['description'] = "Coming soon";
+        // $data['keywords'] = "Coming soon";
+        $data['title'] = $this->settings->homepage_title;
+        $data['description'] = $this->settings->site_description;
+        $data['keywords'] = $this->settings->keywords;
+
+        $this->load->view('partials/_headerhome', $data);
+        $this->load->view('jobshunter/frontend/home', $data);
+        $this->load->view('partials/_footer');
+    }
 }

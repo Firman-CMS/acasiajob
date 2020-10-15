@@ -22,10 +22,23 @@
                         <input type="text" class="form-control" name="title" placeholder="ex : Backend developer" value="<?php echo html_escape($job->title); ?>"
                                required>
                     </div>
-                    <div class="form-group">
-                        <label><?php echo trans("salary"); ?></label>
-                        <input type="number" class="form-control" name="salary" placeholder="ex : 1000000" value="<?php echo html_escape($job->salary); ?>"
+                    <label><?php echo trans("salary"); ?></label>
+                    <div class="row">
+                        <div class="col-sm-6">
+                          <!-- text input -->
+                          <div class="form-group">
+                            <label><?php echo trans("starting_from"); ?></label>
+                            <input type="number" class="form-control" name="salary_min" placeholder="ex : 1000000" value="<?php echo html_escape($job->salary_min); ?>"
+                               maxlength="200" required>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label><?php echo trans("up_to"); ?></label>
+                            <input type="number" class="form-control" name="salary" placeholder="ex : 1000000" value="<?php echo html_escape($job->salary); ?>"
                                maxlength="200" <?php echo ($rtl == true) ? 'dir="rtl"' : ''; ?> required>
+                          </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
@@ -110,7 +123,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="to" class="form-control" value="<?php echo date("m/d/Y", strtotime($job->from)); ?>" required>
+                                <input type="text" name="to" class="form-control" value="<?php echo date("m/d/Y", strtotime($job->to)); ?>" required>
                             </div>
                             <!-- /.input group -->
                         </div>
