@@ -21,10 +21,23 @@
                         <input type="text" class="form-control" name="title" placeholder="ex : Backend developer"
                                maxlength="200" <?php echo ($rtl == true) ? 'dir="rtl"' : ''; ?> required>
                     </div>
-                    <div class="form-group">
-                        <label><?php echo trans("salary"); ?></label>
-                        <input type="number" class="form-control" name="salary" placeholder="ex : 1000000"
-                               maxlength="200" <?php echo ($rtl == true) ? 'dir="rtl"' : ''; ?> required>
+                    <label><?php echo trans("salary"); ?></label>
+                    <div class="row">
+                        <div class="col-sm-6">
+                          <!-- text input -->
+                          <div class="form-group">
+                            <label><?php echo trans("starting_from"); ?></label>
+                            <input type="number" class="form-control" name="salary_min" placeholder="ex : 3000000"
+                               maxlength="200" required>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label><?php echo trans("up_to"); ?></label>
+                            <input type="number" class="form-control" name="salary" placeholder="ex : 8500000" 
+                               maxlength="200" required>
+                          </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-6">

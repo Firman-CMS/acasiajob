@@ -74,6 +74,9 @@ class Aj_auth_model extends CI_Model
     {
         $this->load->model('upload_model');
         $dataUser = $this->get_user_by_id($userId);
+        if (!$dataUser) {
+            return false;
+        }
         $dataUpload = [
          'file_name' => 'cv',
          'email' => str_replace(".", "_", $dataUser->email),
@@ -81,7 +84,10 @@ class Aj_auth_model extends CI_Model
         $file_path = $this->upload_model->cv_upload($dataUpload);
         if (!empty($file_path)) {
             $data["cv"] = $file_path;
+            return $data;
         }
+
+        return false;
     }
 
     public function get_user_by_id($id)

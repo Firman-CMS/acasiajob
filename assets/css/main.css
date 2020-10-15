@@ -1,0 +1,74 @@
+@font-face {
+    font-family: 'BreeSerif Regular';
+    src: url('../fonts/BreeSerif-Regular.ttf');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'BreeSerif Regular';
+    src: url('../fonts/BreeSerif-Regular.ttf');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'BreeSerif Regular';
+    src: url('../fonts/BreeSerif-Regular.ttf');
+    font-weight: 600;
+}
+
+body {
+    background-color: #1f315e;
+    margin: 0;
+    color: #fff;
+    font-family: 'BreeSerif Regular';
+    overflow-x: hidden;
+    font-weight: 400;
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.full-height {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+/* Home */
+.app-name {
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 30px;
+    font-size: 70px;
+}
+
+.google-play-img {
+    display: flex;
+    justify-content: center;
+}
+
+.google-play-img img {
+    width: 258px;
+    height: 77px;
+}
+
+/* Verify Email */
+.verify-email .info {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 30px;
+}
+.verify-email .open-app {
+    display: none;
+    justify-content: center;
+}
+.verify-email .open-app .btn-primary {
+    background-color: #2c93e7;
+    border-color: #2c93e7;
+}

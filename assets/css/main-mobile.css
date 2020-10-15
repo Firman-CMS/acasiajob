@@ -1,0 +1,16 @@
+@media screen and (max-width: 767px) {
+    /* Home */
+    .app-name {
+        font-size: 30px;
+    }
+
+    .google-play-img img {
+        width: 184px;
+        height: 55px;
+    }
+
+    /* Verify Email */
+    .verify-email .info {
+        font-size: 25px;
+    }
+}

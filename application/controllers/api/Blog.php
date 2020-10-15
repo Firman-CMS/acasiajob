@@ -147,5 +147,33 @@ class Blog extends REST_Controller{
 
 		$this->response($this->return);
 	}
+
+	public function psikotester_get()
+	{
+		$psikotester = $this->api_blog_model->get_page_by_slug('psikotester');
+		if ($psikotester) {
+			$datas['title'] = $psikotester->title;
+			$datas['page_content'] = $psikotester->page_content;
+			$this->return['status'] = true;
+			$this->return['message'] = "Success";
+			$this->return['data'] = $datas;
+		}
+
+		$this->response($this->return);
+	}
+
+	public function termscondition_get()
+	{
+		$terms = $this->api_blog_model->get_page_by_slug('terms-conditions');
+		if ($terms) {
+			$datas['title'] = $terms->title;
+			$datas['page_content'] = $terms->page_content;
+			$this->return['status'] = true;
+			$this->return['message'] = "Success";
+			$this->return['data'] = $datas;
+		}
+
+		$this->response($this->return);
+	}
 }
 ?>

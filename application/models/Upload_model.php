@@ -245,6 +245,23 @@ class Upload_model extends CI_Model
 		return null;
 	}
 
+	//user profile picture upload
+	public function profile_picture_upload($file_name)
+	{
+		$config['upload_path'] = './uploads/profile/';
+		$config['allowed_types'] = 'gif|jpg|jpeg|png|svg';
+		$config['file_name'] = 'profile_pic' . uniqid();
+		$this->load->library('upload', $config);
+
+		if ($this->upload->do_upload($file_name)) {
+			$data = array('upload_data' => $this->upload->data());
+			if (isset($data['upload_data']['full_path'])) {
+				return 'uploads/profile/' . $data['upload_data']['file_name'];
+			}
+		}
+		return null;
+	}
+
 	//cv upload
 	public function cv_upload($datas)
 	{

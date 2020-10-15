@@ -55,7 +55,7 @@ include_once "route_slugs.php";
 $r_admin = $custom_slug_array["admin"];
 
 // $route['default_controller'] = 'aj_common_controller/admin_login';
-$route['default_controller'] = 'aj_home_controller/error_404';
+$route['default_controller'] = 'aj_home_controller/home';
 $route['404_override'] = 'home_controller/error_404';
 $route['translate_uri_dashes'] = FALSE;
 $route['error-404'] = 'aj_home_controller/error_404';
@@ -241,6 +241,10 @@ $route[$r_admin . '/update-blog-category/(:num)'] = 'blog_controller/update_cate
 $route[$r_admin . '/new-job-vacancy'] = 'aj_job_controller/job_vacancy';
 $route[$r_admin . '/list-job-vacancy'] = 'aj_job_controller/list_job';
 $route[$r_admin . '/detail-job/(:num)'] = 'aj_job_controller/detail_job/$1';
+$route[$r_admin . '/detail-applied-job/(:num)'] = 'aj_job_controller/detail_applied_job/$1';
+$route[$r_admin . '/user-profile/(:num)'] = 'aj_user_controller/user_profile/$1';
+$route[$r_admin . '/dowload-cv/(:num)'] = 'aj_job_controller/dowload_cv/$1';
+$route[$r_admin . '/dowload-profile/(:num)'] = 'aj_user_controller/dowload_profile/$1';
 $route[$r_admin . '/product-comments'] = 'product_admin_controller/comments';
 $route[$r_admin . '/blog-comments'] = 'blog_controller/comments';
 /*review routes*/
